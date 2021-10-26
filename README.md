@@ -1,6 +1,6 @@
 # MicroserviceVoorbeeld
 
-Losjes gebaseerd op ".NET Microservices – Full Course" van Les Jackson (https://www.youtube.com/watch?v=DgVjEo3OGBI).
+Gebaseerd op ".NET Microservices – Full Course" van Les Jackson (https://www.youtube.com/watch?v=DgVjEo3OGBI).
 
 De Platform Service is volledig gebaseerd op bovengenoemde cursus.
 
