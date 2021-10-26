@@ -1,0 +1,23 @@
+version: "3"  # optional since v1.27.0
+
+services:
+  ms-sql-server:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Geheim123"
+    ports:
+      - "1433:1433"	
+  platformservice-api:
+    # image: joost1982/platformservice 		# dit kan ook (misschien zelfs beter zodat wijzigingen ook meegenomen worden): 		build: .
+    build: ./PlatformService/PlatformService/.      # nb: maakt gebruik van Dockerfile in die map!
+    #environment:
+    #  ConnectionStrings__CommanderConnectionDocker: Server=ms-sql-server,1433;Database=CommanderDb;User Id=SA;Password=Geheim123;
+    ports:
+      - "8080:80"
+  commandservice-api:
+    build: ./CommandService/CommandService/.
+    environment:
+      ConnectionStrings__CommanderConnectionDocker: Server=ms-sql-server,1433;Database=CommanderDb;User Id=SA;Password=Geheim123;
+    ports:
+      - "8081:80"
