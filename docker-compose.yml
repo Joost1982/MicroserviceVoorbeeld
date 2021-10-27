@@ -31,7 +31,7 @@ services:
   commandservice-api:
     build: ./CommandService/CommandService/.
     environment:
-      ConnectionStrings__CommanderConnectionDocker: Server=ms-sql-server,1433;Database=CommandDb;User Id=SA;Password=Geheim123;
+      ConnectionStrings__CommandConnectionDocker: Server=ms-sql-server,1433;Database=CommandDb;User Id=SA;Password=Geheim123;
     #ports:
     #  - "8081:80" # nb: geen port binding hier! server is van buiten niet meer direct te benaderen (gaat via nginx api gateway)
     expose:
