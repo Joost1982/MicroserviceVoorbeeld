@@ -17,18 +17,25 @@ services:
       - "1433:1433"	    # hier nog wel portbinding, omdat we de database van buitenaf willen benaderen via sql management studio (en dotnet ef update)
     #expose:
     #  - "1433"	
+    volumes: 
+      - sqlvolume:/var/opt/mssql    #add data volume zodat data bewaard blijft als container verwijderd wordt
   platformservice-api:
     # image: joost1982/platformservice 		# dit kan ook (misschien zelfs beter zodat wijzigingen ook meegenomen worden): 		build: .
     build: ./PlatformService/PlatformService/.      # nb: maakt gebruik van Dockerfile in die map!
     #ports:
-    #  - "8080:80"
+    #  - "8080:80" # nb: geen port binding hier! server is van buiten niet meer direct te benaderen (gaat via nginx api gateway)
     expose:
-      - "80"    # nb: geen port binding hier! server is van buiten niet meer direct te benaderen (gaat via nginx api gateway)
+      - "80"    
   commandservice-api:
     build: ./CommandService/CommandService/.
     environment:
       ConnectionStrings__CommanderConnectionDocker: Server=ms-sql-server,1433;Database=CommanderDb;User Id=SA;Password=Geheim123;
     #ports:
-    #  - "8081:80"
+    #  - "8081:80" # nb: geen port binding hier! server is van buiten niet meer direct te benaderen (gaat via nginx api gateway)
     expose:
-      - "80"    # nb: geen port binding hier! server is van buiten niet meer direct te benaderen (gaat via nginx api gateway)
+      - "80"    
+
+volumes:
+  mongodbdata:
+#    name: my_volume_001
+  sqlvolume:
