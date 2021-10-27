@@ -4,51 +4,53 @@ Gebaseerd op ".NET Microservices – Full Course" van Les Jackson (https://www.y
 
 *Endpoints*
 
-Van Platform Service:
-- **GET**		/api/platforms		
-- **POST**		/api/platforms		(verwijst ook door naar "/api/c/platforms" van Command Service)
-- **GET** 		/api/platforms/{id}	
+Van EggType Service:
+- **GET**		/api/eggtypes		
+- **POST**		/api/eggtypes		(verwijst ook door naar "/api/f/eggtypes" van Command Service)
+- **GET** 		/api/eggtypes/{id}	
 
-Voorbeeld Platform:
+Voorbeeld EggType:
 ```json
 {
-	"id": 1,
-	"name": "Dot net",
-	"publisher": "Microsoft",
-	"cost": "Free"
+	"Id": 1,
+	"Description": "Omega-3 braun",
+	"EggTypeGroupParameterCode": "0",
+	"EggColorParameterCode": "1"
 }
 ```
 
-Van Command Service:
-- **GET**		/api/commands
-- **GET**		/api/commands/{id}
-- **PUT**		/api/commands/{id}
-- **PATCH**		/api/commands/{id}
-- **DELETE**	/api/commands/{id}
-- **POST** 		/api/c/platforms	
+Van Flock Service:
+- **GET**		/api/flocks
+- **GET**		/api/flocks/{id}
+- **PUT**		/api/flocks/{id}
+- **PATCH**		/api/flocks/{id}
+- **DELETE**	/api/flocks/{id}
+- **POST** 		/api/f/eggtypes	
+- **GET** 		/api/f/eggtypes/{eggTypeId}/flocks	
+- **GET** 		/api/f/eggtypes/{eggTypeId}/flocks/{commandId}
+- **POST** 		/api/f/eggtypes/{eggTypeId}/flocks
 
-To do:
-- **GET** 		/api/c/platforms/{plaformId}/commands	
-- **GET** 		/api/c/platforms/{plaformId}/commands/{commandId}
-- **POST** 		/api/c/platforms/{plaformId}/commands
-
-Voorbeeld Command:
+Voorbeeld Flock:
 ```json
 {
     "id": 3,
-    "howTo": "migrations doorvoeren",
-    "line": "dotnet ef database update",
-    "platform" : "Dot net"
+    "FlockCode": "1111-22",
+    "Description": "Bennekom Stall",
+    "EggType" : "Bio weiss/braun"
 }
 ```
 
 *Afwijkingen bovengenoemde cursus*
 
+- Andere Models: Platform -> EggType en Command -> Flock
 - Geen Kubernetes, maar Docker Compose
-- Voor de Commands Service heb ik geput uit Les Jacksons ".NET Core 3.1 MVC REST API - Full Course" (https://www.youtube.com/watch?v=fmvcAzHpsk8)
-- MS-SQL server (nodig voor de door mij gebruikte versie van de Commands Service) draait in een aparte docker container 
+- De Flock Service is gebaseerd op Les Jacksons ".NET Core 3.1 MVC REST API - Full Course" (https://www.youtube.com/watch?v=fmvcAzHpsk8)
 - ConnectionStrings niet in appsettings.json maar als env vars
+
+*To do*
+
+De Message Bus maken.
 
 *Overzicht*
 
-![alt text](https://github.com/Joost1982/MicroserviceVoorbeeld/blob/master/overzicht.png)
+![alt text](https://github.com/Joost1982/MicroserviceVoorbeeld/blob/master/overzicht_rabbitMq.png)

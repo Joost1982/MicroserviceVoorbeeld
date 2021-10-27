@@ -19,19 +19,19 @@ services:
     #  - "1433"	
     volumes: 
       - sqlvolume:/var/opt/mssql    #add data volume zodat data bewaard blijft als container verwijderd wordt
-  platformservice-api:
-    # image: joost1982/platformservice 		# dit kan ook (misschien zelfs beter zodat wijzigingen ook meegenomen worden): 		build: .
-    build: ./PlatformService/PlatformService/.      # nb: maakt gebruik van Dockerfile in die map!
+  eggtypeservice-api:
+    # image: joost1982/eggtypeservice 		# dit kan ook (misschien zelfs beter zodat wijzigingen ook meegenomen worden): 		build: .
+    build: ./EggTypeService/EggTypeService/.      # nb: maakt gebruik van Dockerfile in die map!
     environment:
-      ConnectionStrings__PlatformConnectionDocker: Server=ms-sql-server,1433;Database=PlatformsDb;User Id=SA;Password=Geheim123;
+      ConnectionStrings__EggTypeConnectionDocker: Server=ms-sql-server,1433;Database=EggTypesDb;User Id=SA;Password=Geheim123;
     #ports:
     #  - "8080:80" # nb: geen port binding hier! server is van buiten niet meer direct te benaderen (gaat via nginx api gateway)
     expose:
       - "80"    
-  commandservice-api:
-    build: ./CommandService/CommandService/.
+  flockservice-api:
+    build: ./FlockService/FlockService/.
     environment:
-      ConnectionStrings__CommandConnectionDocker: Server=ms-sql-server,1433;Database=CommandDb;User Id=SA;Password=Geheim123;
+      ConnectionStrings__FlockConnectionDocker: Server=ms-sql-server,1433;Database=FlockDb;User Id=SA;Password=Geheim123;
     #ports:
     #  - "8081:80" # nb: geen port binding hier! server is van buiten niet meer direct te benaderen (gaat via nginx api gateway)
     expose:
