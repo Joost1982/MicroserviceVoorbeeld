@@ -31,8 +31,8 @@ namespace Commander
         {
 
             services.AddDbContext<CommanderContext>(opt => opt.UseSqlServer
-                //(Configuration.GetConnectionString("CommanderConnectionLokaal")));
-                    (Configuration.GetConnectionString("CommanderConnectionDocker")));
+                //(Configuration.GetConnectionString("CommandConnectionLokaal")));
+                    (Configuration.GetConnectionString("CommandConnectionDocker"))); 
 
             services.AddControllers().AddNewtonsoftJson(s =>
             {
