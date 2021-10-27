@@ -4,11 +4,11 @@ Gebaseerd op ".NET Microservices – Full Course" van Les Jackson (https://www.y
 
 *Overzicht*
 
-![alt text](https://github.com/Joost1982/MicroserviceVoorbeeld/blob/master/overzicht.png)
+<img src="https://github.com/Joost1982/MicroserviceVoorbeeld/blob/master/overzicht.png" width="500">
 
-To do:
+**To do:**
 
-![alt text](https://github.com/Joost1982/MicroserviceVoorbeeld/blob/master/overzicht_rabbitMq.png)
+<img src="https://github.com/Joost1982/MicroserviceVoorbeeld/blob/master/overzicht_rabbitMq.png" width="500">
 
 *Endpoints*
 
