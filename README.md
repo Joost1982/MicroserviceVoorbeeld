@@ -2,11 +2,19 @@
 
 Gebaseerd op ".NET Microservices – Full Course" van Les Jackson (https://www.youtube.com/watch?v=DgVjEo3OGBI).
 
+*Overzicht*
+
+![alt text](https://github.com/Joost1982/MicroserviceVoorbeeld/blob/master/overzicht.png)
+
+To do:
+
+![alt text](https://github.com/Joost1982/MicroserviceVoorbeeld/blob/master/overzicht_rabbitMq.png)
+
 *Endpoints*
 
 Van EggType Service:
 - **GET**		/api/eggtypes		
-- **POST**		/api/eggtypes		(verwijst ook door naar "/api/f/eggtypes" van Command Service)
+- **POST**		/api/eggtypes		(verwijst ook door naar "/api/f/eggtypes" van Flock Service)
 - **GET** 		/api/eggtypes/{id}	
 
 Voorbeeld EggType:
@@ -27,13 +35,13 @@ Van Flock Service:
 - **DELETE**	/api/flocks/{id}
 - **POST** 		/api/f/eggtypes	
 - **GET** 		/api/f/eggtypes/{eggTypeId}/flocks	
-- **GET** 		/api/f/eggtypes/{eggTypeId}/flocks/{commandId}
+- **GET** 		/api/f/eggtypes/{eggTypeId}/flocks/{flockId}
 - **POST** 		/api/f/eggtypes/{eggTypeId}/flocks
 
 Voorbeeld Flock:
 ```json
 {
-    "id": 3,
+    "Id": 3,
     "FlockCode": "1111-22",
     "Description": "Bennekom Stall",
     "EggType" : "Bio weiss/braun"
@@ -51,6 +59,4 @@ Voorbeeld Flock:
 
 De Message Bus maken.
 
-*Overzicht*
 
-![alt text](https://github.com/Joost1982/MicroserviceVoorbeeld/blob/master/overzicht_rabbitMq.png)
