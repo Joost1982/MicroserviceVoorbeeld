@@ -33,9 +33,10 @@ namespace Commander
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddDbContext<CommanderContext>(opt => opt.UseSqlServer
-                //(Configuration.GetConnectionString("CommandConnectionLokaal")));
-                    (Configuration.GetConnectionString("CommandConnectionDocker"))); 
+            services.AddDbContext<CommandContext>(opt => opt.UseInMemoryDatabase("InMem"));
+           // services.AddDbContext<CommandContext>(opt => opt.UseSqlServer
+           //     //(Configuration.GetConnectionString("CommandConnectionLokaal")));
+           //         (Configuration.GetConnectionString("CommandConnectionDocker"))); 
 
             services.AddControllers().AddNewtonsoftJson(s =>
             {
@@ -43,7 +44,7 @@ namespace Commander
             });
 
             //services.AddScoped<ICommanderRepo, MockCommanderRepo>();
-            services.AddScoped<ICommanderRepo, SqlCommanderRepo>();
+            services.AddScoped<ICommandRepo, SqlCommandRepo>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }

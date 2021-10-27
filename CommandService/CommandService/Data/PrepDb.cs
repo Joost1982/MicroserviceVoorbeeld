@@ -15,12 +15,12 @@ namespace Commander.Data
         {
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {
-                SeedData(serviceScope.ServiceProvider.GetService<CommanderContext>(), isProductionEnv);
+                SeedData(serviceScope.ServiceProvider.GetService<CommandContext>(), isProductionEnv);
             }
 
         }
 
-        private static void SeedData(CommanderContext context, bool isProd)
+        private static void SeedData(CommandContext context, bool isProd)
         {
             if (isProd)
             {
@@ -41,9 +41,9 @@ namespace Commander.Data
                 Console.WriteLine("--> Seeding Data...");
 
                 context.Commands.AddRange(
-                    new Command() { HowTo = "Computer opstarten", Line = "Op aan knop duwen", Platform = "PC" },
-                    new Command() { HowTo = "git updaten", Line = "git push", Platform = "Github" },
-                    new Command() { HowTo = "migrations doorvoeren", Line = "dotnet ef database update", Platform = "dotnet core" }
+                    new Command() { HowTo = "Computer opstarten", Line = "Op aan knop duwen", PlatformId = 1 },
+                    new Command() { HowTo = "git updaten", Line = "git push", PlatformId = 2 },
+                    new Command() { HowTo = "migrations doorvoeren", Line = "dotnet ef database update", PlatformId = 1 }
                     );
 
                 context.SaveChanges();

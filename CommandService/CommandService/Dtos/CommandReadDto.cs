@@ -10,5 +10,6 @@ namespace Commander.Dtos
         public int Id { get; set; }
         public string HowTo { get; set; }
         public string Line { get; set; }
+        public int PlatformId { get; set; }
     }
 }

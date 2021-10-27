@@ -27,6 +27,11 @@ Van Command Service:
 - **DELETE**	/api/commands/{id}
 - **POST** 		/api/c/platforms	
 
+To do:
+- **GET** 		/api/c/platforms/{plaformId}/commands	
+- **GET** 		/api/c/platforms/{plaformId}/commands/{commandId}
+- **POST** 		/api/c/platforms/{plaformId}/commands
+
 Voorbeeld Command:
 ```json
 {

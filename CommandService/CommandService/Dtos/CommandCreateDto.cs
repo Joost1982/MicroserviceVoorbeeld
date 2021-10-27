@@ -13,7 +13,9 @@ namespace Commander.Dtos
         public string HowTo { get; set; }
         [Required]
         public string Line { get; set; }
-        [Required]
-        public string Platform { get; set; }
+        
+        //[Required]
+        //public int PlatformId { get; set; }   // niet nodig, want komt uit de url!
+        
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommandService.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -19,6 +20,8 @@ namespace Commander.Models
         public string Line { get; set; }
         
         [Required]
-        public string Platform { get; set; }
+        public int PlatformId { get; set; }
+
+        public Platform Platform;
     }
 }
