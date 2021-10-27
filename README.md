@@ -5,32 +5,37 @@ Gebaseerd op ".NET Microservices – Full Course" van Les Jackson (https://www.y
 *Endpoints*
 
 Van Platform Service:
-- GET		/api/platforms		
-- POST		/api/platforms		(verwijst ook door naar "/api/c/platforms" van Command Service)
-- GET 		/api/platforms/{id}	
+- **GET**		/api/platforms		
+- **POST**		/api/platforms		(verwijst ook door naar "/api/c/platforms" van Command Service)
+- **GET** 		/api/platforms/{id}	
 
 Voorbeeld Platform:
+```json
 {
 	"id": 1,
 	"name": "Dot net",
 	"publisher": "Microsoft",
 	"cost": "Free"
 }
+```
 
 Van Command Service:
-- GET		/api/commands
-- GET		/api/commands/{id}
-- PUT		/api/commands/{id}
-- PATCH		/api/commands/{id}
-- DELETE	/api/commands/{id}
-- POST 		/api/c/platforms	
+- **GET**		/api/commands
+- **GET**		/api/commands/{id}
+- **PUT**		/api/commands/{id}
+- **PATCH**		/api/commands/{id}
+- **DELETE**	/api/commands/{id}
+- **POST** 		/api/c/platforms	
 
 Voorbeeld Command:
+```json
 {
     "id": 3,
     "howTo": "migrations doorvoeren",
-    "line": "dotnet ef database update"
+    "line": "dotnet ef database update",
+    "platform" : "Dot net",
 }
+```
 
 *Afwijkingen bovengenoemde cursus*
 
