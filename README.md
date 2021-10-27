@@ -33,7 +33,7 @@ Voorbeeld Command:
     "id": 3,
     "howTo": "migrations doorvoeren",
     "line": "dotnet ef database update",
-    "platform" : "Dot net",
+    "platform" : "Dot net"
 }
 ```
 
