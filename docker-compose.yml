@@ -23,6 +23,10 @@ services:
       - "27017:27017"   # hier nog wel portbinding, omdat we de database van buitenaf willen benaderen via MongoDB Compass
     volumes: 
       - mongodbdata:/data/db
+  rabbitmq-container:
+    image: rabbitmq:3-management
+    ports:
+      - "15672:15672"   # hier nog wel portbinding, omdat we RabbitMq van buitenaf willen benaderen via de browser
   eggtypeservice-api:
     # image: joost1982/eggtypeservice 		# dit kan ook (misschien zelfs beter zodat wijzigingen ook meegenomen worden): 		build: .
     build: ./EggTypeService/EggTypeService/.      # nb: maakt gebruik van Dockerfile in die map!
