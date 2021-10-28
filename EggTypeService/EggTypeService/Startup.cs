@@ -18,6 +18,7 @@ using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Newtonsoft.Json.Serialization;
+using EggTypeService.AsyncDataServices;
 
 namespace EggTypeService
 {
@@ -48,6 +49,7 @@ namespace EggTypeService
 
 
 			services.AddScoped<IEggTypeRepo, MongoEggTypeRepo>();
+            services.AddSingleton<IMessageBusClient, MessageBusClient>();
 
             services.AddHttpClient<IFlockDataClient, HttpFlockDataClient>();
 

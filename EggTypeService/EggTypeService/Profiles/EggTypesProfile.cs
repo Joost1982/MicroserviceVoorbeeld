@@ -16,6 +16,7 @@ namespace EggTypeService.Profiles
             // Source -> Target
             CreateMap<EggType, EggTypeReadDto>();
             CreateMap<EggTypeCreateDto, EggType>();
+            CreateMap<EggTypeReadDto, EggTypePublishedDto>();
         }
     }
 }
