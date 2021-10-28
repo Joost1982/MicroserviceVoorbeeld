@@ -33,7 +33,7 @@ namespace ProductService.Controllers
         // Nieuwe endpoints
 
         [HttpGet]
-        [Route("f/eggtypes/{eggTypeId}/products")]   // /api/c/...etc
+        [Route("p/eggtypes/{eggTypeId}/products")]   // /api/c/...etc
         public ActionResult<IEnumerable<ProductReadDto>> GetProductsForEggType(int eggTypeId)
         {
             Console.WriteLine($"--> Hit GetProductsForEggType: {eggTypeId}");
@@ -46,8 +46,8 @@ namespace ProductService.Controllers
             return Ok(_mapper.Map<IEnumerable<ProductReadDto>>(productItems));
         }
 
-        // route -> /api/f/eggtypes/{eggTypeId}/products/{productId}
-        [HttpGet("f/eggtypes/{eggTypeId}/products/{productId}", Name = "GetProductForEggType")]
+        // route -> /api/p/eggtypes/{eggTypeId}/products/{productId}
+        [HttpGet("p/eggtypes/{eggTypeId}/products/{productId}", Name = "GetProductForEggType")]
         public ActionResult<ProductReadDto> GetProductForEggType(int eggTypeId, int productId)
         {
             Console.WriteLine($"--> Hit GetProductsForEggType: {eggTypeId} / {productId}");
@@ -67,7 +67,7 @@ namespace ProductService.Controllers
         }
 
         [HttpPost]
-        [Route("f/eggtypes/{eggTypeId}/products")]
+        [Route("p/eggtypes/{eggTypeId}/products")]
         public ActionResult<ProductReadDto> CreateProductForEggType(int eggTypeId, ProductCreateDto productDto)
         {
             Console.WriteLine($"--> Hit CreateProductForEggType: {eggTypeId}");

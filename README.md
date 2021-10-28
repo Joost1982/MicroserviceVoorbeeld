@@ -46,25 +46,35 @@ Voorbeeld Product:
 }
 ```
 
-
 *Endpoints*
 
 Van EggType Service:
-- **GET**		/api/eggtypes		
+- **GET**		/api/eggtypes	
+- **GET** 		/api/eggtypes/{id}		
 - **POST**		/api/eggtypes		(verwijst ook door naar "/api/f/eggtypes" van Flock Service)
-- **GET** 		/api/eggtypes/{id}	
 
 Van Flock Service:
 - **GET**		/api/flocks
+- **POST**		/api/flocks
 - **GET**		/api/flocks/{id}
 - **PUT**		/api/flocks/{id}
 - **PATCH**		/api/flocks/{id}
 - **DELETE**	/api/flocks/{id}
-- **POST** 		/api/f/eggtypes	
+- **GET** 		/api/f/eggtypes	 [toont de voor de Flock Service beschikbare EggTypes] 
+- **POST** 		/api/f/eggtypes	 [wordt aangeroepen vanuit "/api/eggtypes" POST van EggType Service]
 - **GET** 		/api/f/eggtypes/{eggTypeId}/flocks	
 - **GET** 		/api/f/eggtypes/{eggTypeId}/flocks/{flockId}
 - **POST** 		/api/f/eggtypes/{eggTypeId}/flocks
 
 Van Product Service:
-- ...
-- ...
+- **GET**		/api/products
+- **POST**		/api/products
+- **GET**		/api/products/{id}
+- **PUT**		/api/products/{id}
+- **PATCH**		/api/products/{id}
+- **DELETE**	/api/products/{id}
+- **GET** 		/api/p/eggtypes	 [toont de voor de Product Service beschikbare EggTypes] 
+- **POST** 		/api/p/eggtypes	 [wordt aangeroepen vanuit "/api/eggtypes" POST van EggType Service]
+- **GET** 		/api/p/eggtypes/{eggTypeId}/products	
+- **GET** 		/api/p/eggtypes/{eggTypeId}/products/{productId}
+- **POST** 		/api/p/eggtypes/{eggTypeId}/products
