@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EggTypeService.AsyncDataServices;
 
 namespace EggTypeService.Controllers
 {
@@ -18,15 +19,18 @@ namespace EggTypeService.Controllers
         private readonly IEggTypeRepo _repository;
         private readonly IMapper _mapper;
         private readonly IFlockDataClient _commandDataClient;
+        private readonly IMessageBusClient _messageBusClient;
 
         public EggTypesController(
             IEggTypeRepo repository, 
             IMapper mapper,
-            IFlockDataClient commandDataClient)
+            IFlockDataClient flockDataClient,
+            IMessageBusClient messageBusClient)
         {
             _repository = repository;
             _mapper = mapper;
-            _commandDataClient = commandDataClient;
+            _commandDataClient = flockDataClient;
+            _messageBusClient = messageBusClient;
         }
 
         [HttpGet]
@@ -59,6 +63,9 @@ namespace EggTypeService.Controllers
 
             var eggTypeReadDto = _mapper.Map<EggTypeReadDto>(eggTypeModel);
 
+            
+            // send Sync message (van microservice naar microservice)
+
             try
             {
                 await _commandDataClient.SendEggTypeToFlock(eggTypeReadDto);
@@ -67,6 +74,21 @@ namespace EggTypeService.Controllers
             {
                 Console.WriteLine($"--> Could not send synchronously: {ex.Message}");
             }
+
+            // send Async message (van microservice naar messagebus)
+
+            try
+            {
+                var eggTypePublishedDto = _mapper.Map<EggTypePublishedDto>(eggTypeReadDto);
+                eggTypePublishedDto.Event = "EggType_Published";
+                _messageBusClient.PublishNewEggType(eggTypePublishedDto);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"--> Could not send asynchronously: {ex.Message}");
+            }
+
+
 
             return CreatedAtRoute(nameof(GetEggTypeById), new { Id = eggTypeReadDto.Id }, eggTypeReadDto);
                 //CreatedAtRoute returned een 201 en een locatie (een route)
