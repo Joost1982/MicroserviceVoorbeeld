@@ -8,6 +8,7 @@ namespace FlockService.Dtos
     public class EggTypeReadDto
     {
         public int Id { get; set; }
+        public int ExternalId { get; set; }
         public string Description { get; set; }
     }
 }

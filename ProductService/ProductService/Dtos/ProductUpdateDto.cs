@@ -15,6 +15,6 @@ namespace ProductService.Dtos
         public bool isActive { get; set; }
 
         [Required]
-        public string EggType { get; set; }
+        public string EggTypeId { get; set; }
     }
 }

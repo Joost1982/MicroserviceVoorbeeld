@@ -15,6 +15,7 @@ namespace ProductService.Profiles
             //Source -> Target
             CreateMap<Product, ProductReadDto>();
             CreateMap<ProductCreateDto, Product>();
+            CreateMap<ProductCreateWithFKDto, Product>();
             CreateMap<ProductUpdateDto, Product>();
             CreateMap<Product, ProductUpdateDto>();
 

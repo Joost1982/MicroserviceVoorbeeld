@@ -1,0 +1,706 @@
+{
+	"info": {
+		"_postman_id": "9b277b35-861e-4985-b2f3-aebbdb408577",
+		"name": "MicroServiceVoorbeeld",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "EggType Service (MongoDb)",
+			"item": [
+				{
+					"name": "GET /api/eggtypes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://0.0.0.0/api/eggtypes",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"path": [
+								"api",
+								"eggtypes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/eggtypes/{id}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://0.0.0.0/api/eggtypes/2",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"path": [
+								"api",
+								"eggtypes",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /api/eggtypes",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"Omega-3 weisssss\",\r\n    \"eggTypeGroupParameterCode\": 12,\r\n    \"eggColorParameterCode\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0/api/eggtypes",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"path": [
+								"api",
+								"eggtypes"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Flock Service (MS-SQL)",
+			"item": [
+				{
+					"name": "GET /api/flocks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://0.0.0.0/api/flocks",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"path": [
+								"api",
+								"flocks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /api/flocks",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"FlockCode\": \"1111-22\",\r\n    \"Description\": \"Bennekom stal\",\r\n    \"EggTypeId\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0/api/flocks",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"path": [
+								"api",
+								"flocks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/flocks/{id}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://0.0.0.0/api/flocks/13",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"path": [
+								"api",
+								"flocks",
+								"13"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /api/flocks/{id}",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"flockCode\": \"1111-22\",\r\n    \"description\": \"Bennekom stal 7\",\r\n    \"eggTypeId\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0/api/flocks/13",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"path": [
+								"api",
+								"flocks",
+								"13"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /api/flocks/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://0.0.0.0/api/flocks/13",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"path": [
+								"api",
+								"flocks",
+								"13"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH /api/flocks/{id}",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"op\" : \"replace\",\r\n    \"path\" : \"/flockCode\",\r\n    \"value\" : \"9999\"\r\n    },\r\n    {\r\n    \"op\" : \"replace\",\r\n    \"path\" : \"/description\",\r\n    \"value\" : \"nieuwe waardeLine\"\r\n   }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0/api/flocks/13",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"path": [
+								"api",
+								"flocks",
+								"13"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/f/eggtypes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://0.0.0.0/api/f/eggtypes",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"path": [
+								"api",
+								"f",
+								"eggtypes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /api/f/eggtypes",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"externalId\": 10,\r\n    \"description\": \"Bruin Bio3\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0/api/f/eggtypes",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"path": [
+								"api",
+								"f",
+								"eggtypes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/f/eggtypes/{eggTypeId}/flocks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://0.0.0.0/api/f/eggtypes/2/flocks",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"path": [
+								"api",
+								"f",
+								"eggtypes",
+								"2",
+								"flocks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /api/f/eggtypes/{eggTypeId}/flocks",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"flockCode\" : \"blabla\",\r\n  \"description\" : \"beschrijving\"\r\n }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0/api/f/eggtypes/1/flocks",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"path": [
+								"api",
+								"f",
+								"eggtypes",
+								"1",
+								"flocks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/f/eggtypes/{eggTypeId}/flocks/{flockId}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://0.0.0.0/api/f/eggtypes/2/flocks/1",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"path": [
+								"api",
+								"f",
+								"eggtypes",
+								"2",
+								"flocks",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product Service (InMem)",
+			"item": [
+				{
+					"name": "GET /api/products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://0.0.0.0/api/products",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"path": [
+								"api",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /api/products",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productCode\": \"1111-22\",\r\n    \"isActive\": true,\r\n    \"eggTypeId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0/api/products",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"path": [
+								"api",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/products/{id}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://0.0.0.0/api/products/3",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"path": [
+								"api",
+								"products",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /api/products/{id}",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productCode\": \"1111-22\",\r\n    \"isActive\": true,\r\n    \"eggTypeId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0/api/products/2",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"path": [
+								"api",
+								"products",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /api/products/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://0.0.0.0/api/products/4",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"path": [
+								"api",
+								"products",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH /api/products/{id}",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"op\" : \"replace\",\r\n    \"path\" : \"/productCode\",\r\n    \"value\" : \"9999\"\r\n    },\r\n    {\r\n    \"op\" : \"replace\",\r\n    \"path\" : \"/isActive\",\r\n    \"value\" : false\r\n   }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0/api/products/2",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"path": [
+								"api",
+								"products",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/p/eggtypes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://0.0.0.0/api/p/eggtypes",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"path": [
+								"api",
+								"p",
+								"eggtypes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /api/p/eggtypes",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"blabla\": \"not implemented\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0/api/p/eggtypes",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"path": [
+								"api",
+								"p",
+								"eggtypes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/p/eggtypes/{eggTypeId}/products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://0.0.0.0/api/p/eggtypes/2/products",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"path": [
+								"api",
+								"p",
+								"eggtypes",
+								"2",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /api/p/eggtypes/{eggTypeId}/products",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"productCode\" : \"blabla\",\r\n  \"description\" : \"beschrijving\"\r\n }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0/api/p/eggtypes/1/products",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"path": [
+								"api",
+								"p",
+								"eggtypes",
+								"1",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/p/eggtypes/{eggTypeId}/products/{productId}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://0.0.0.0/api/p/eggtypes/2/products/1",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"path": [
+								"api",
+								"p",
+								"eggtypes",
+								"2",
+								"products",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

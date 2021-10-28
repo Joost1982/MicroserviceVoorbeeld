@@ -8,13 +8,14 @@ using System.Threading.Tasks;
 
 namespace FlockService.Profiles
 {
-    public class FlocksProfile : Profile
+    public class EggTypesProfile : Profile
     {
-        public FlocksProfile()
+        public EggTypesProfile()
         {
             //Source -> Target
             CreateMap<Flock, FlockReadDto>();
             CreateMap<FlockCreateDto, Flock>();
+            CreateMap<FlockCreateWithFKDto, Flock>();
             CreateMap<FlockUpdateDto, Flock>();
             CreateMap<Flock, FlockUpdateDto>();
 

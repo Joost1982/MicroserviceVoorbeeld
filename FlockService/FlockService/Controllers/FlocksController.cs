@@ -76,7 +76,13 @@ namespace FlockService.Controllers
                 return NotFound();
             }
 
-            var flock = _mapper.Map<Flock>(flockDto); //geen foutchecks nodig, doet [ApiController] al
+            //dirty Fix om fk key error te voorkomen
+            FlockCreateWithFKDto flockCreateWithFKDto = new FlockCreateWithFKDto();
+            flockCreateWithFKDto.Description = flockDto.Description;
+            flockCreateWithFKDto.FlockCode = flockDto.FlockCode;
+            flockCreateWithFKDto.EggTypeId = eggTypeId;
+
+            var flock = _mapper.Map<Flock>(flockCreateWithFKDto); //geen foutchecks nodig, doet [ApiController] al
 
             _repository.CreateFlock(flock);
             _repository.SaveChanges();
@@ -114,7 +120,7 @@ namespace FlockService.Controllers
 
         [Route("flocks")]   // /api/flocks
         [HttpPost]
-        public ActionResult<FlockReadDto> CreateFlock(FlockCreateDto flockCreateDto) 
+        public ActionResult<FlockReadDto> CreateFlock(FlockCreateWithFKDto flockCreateDto) 
         {
             var flockModel = _mapper.Map<Flock>(flockCreateDto);
             _repository.CreateFlock(flockModel);
@@ -130,8 +136,8 @@ namespace FlockService.Controllers
 
         }
 
-        [Route("flocks")]   // /api/flocks
-        [HttpPut("{id}")]
+        [Route("flocks/{id}")]   // /api/flocks/id
+        [HttpPut]
         public ActionResult UpdateFlock(int id, FlockUpdateDto flockUpdateDto)
         {
             var flockModelFromRepo = _repository.GetFlockById(id);
@@ -179,8 +185,8 @@ namespace FlockService.Controllers
                 ]
          */
 
-        [Route("flocks")]   // /api/flocks
-        [HttpPatch("{id}")]
+        [Route("flocks/{id}")]   // /api/flocks
+        [HttpPatch]
         public ActionResult PartialFlockUpdate(int id, JsonPatchDocument<FlockUpdateDto> patchDoc)
         {
             var flockModelFromRepo = _repository.GetFlockById(id);
@@ -214,8 +220,8 @@ namespace FlockService.Controllers
 
         //DELETE api/flocks/{id}
 
-        [Route("flocks")]   // /api/flocks
-        [HttpDelete("{id}")]
+        [Route("flocks/{id}")]   // /api/flocks
+        [HttpDelete]
         public ActionResult DeleteFlock(int id)
         {
             var flockModelFromRepo = _repository.GetFlockById(id);

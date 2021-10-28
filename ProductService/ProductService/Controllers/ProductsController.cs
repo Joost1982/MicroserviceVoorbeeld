@@ -114,7 +114,7 @@ namespace ProductService.Controllers
 
         [Route("products")]   // /api/products
         [HttpPost]
-        public ActionResult<ProductReadDto> CreateProduct(ProductCreateDto productCreateDto) 
+        public ActionResult<ProductReadDto> CreateProduct(ProductCreateWithFKDto productCreateDto) 
         {
             var productModel = _mapper.Map<Product>(productCreateDto);
             _repository.CreateProduct(productModel);
@@ -130,8 +130,8 @@ namespace ProductService.Controllers
 
         }
 
-        [Route("products")]   // /api/products
-        [HttpPut("{id}")]
+        [Route("products/{id}")]   // /api/products
+        [HttpPut]
         public ActionResult UpdateProduct(int id, ProductUpdateDto productUpdateDto)
         {
             var productModelFromRepo = _repository.GetProductById(id);
@@ -179,8 +179,8 @@ namespace ProductService.Controllers
                 ]
          */
 
-        [Route("products")]   // /api/products
-        [HttpPatch("{id}")]
+        [Route("products/{id}")]   // /api/products
+        [HttpPatch]
         public ActionResult PartialProductUpdate(int id, JsonPatchDocument<ProductUpdateDto> patchDoc)
         {
             var productModelFromRepo = _repository.GetProductById(id);
@@ -214,8 +214,8 @@ namespace ProductService.Controllers
 
         //DELETE api/products/{id}
 
-        [Route("products")]   // /api/products
-        [HttpDelete("{id}")]
+        [Route("products/{id}")]   // /api/products
+        [HttpDelete]
         public ActionResult DeleteProduct(int id)
         {
             var productModelFromRepo = _repository.GetProductById(id);
