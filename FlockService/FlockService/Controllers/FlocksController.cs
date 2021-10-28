@@ -126,7 +126,7 @@ namespace FlockService.Controllers
             // nu wordt er een Location (https://localhost:44351/api/flocks/5) in de header meegestuurd bij de POST en een 201 status
 
 
-            //return Ok(commandReadDto);
+            //return Ok(flockReadDto);
 
         }
 

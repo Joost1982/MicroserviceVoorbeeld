@@ -1,21 +1,21 @@
-﻿using FlockService.Models;
+﻿using ProductService.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FlockService.Data
+namespace ProductService.Data
 {
-    public class FlockContext : DbContext
+    public class ProductContext : DbContext
     {
-        public FlockContext(DbContextOptions<FlockContext> opt) : base(opt)
+        public ProductContext(DbContextOptions<ProductContext> opt) : base(opt)
         {
 
         }
 
-        //dit mapt de model Flock aan een database tabel Flocks
-        public DbSet<Flock> Flocks { get; set; }
+        //dit mapt de model Product aan een database tabel Products
+        public DbSet<Product> Products { get; set; }
         //en de EggTypes
         public DbSet<EggType> EggTypes { get; set; }
 
@@ -32,7 +32,7 @@ namespace FlockService.Data
                 .HasForeignKey(p => p.EggTypeId);
 
             modelBuilder
-            .Entity<Flock>()
+            .Entity<Product>()
             .HasOne(p => p.EggType)
             .WithMany(p => p.Flocks)
             .HasForeignKey(p => p.EggTypeId);

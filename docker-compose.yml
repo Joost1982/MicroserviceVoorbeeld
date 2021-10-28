@@ -40,6 +40,10 @@ services:
     #  - "8081:80" # nb: geen port binding hier! server is van buiten niet meer direct te benaderen (gaat via nginx api gateway)
     expose:
       - "80"    
+  productservice-api:
+    build: ./ProductService/ProductService/.
+    expose:
+      - "80"  
 
 volumes:
   mongodbdata:

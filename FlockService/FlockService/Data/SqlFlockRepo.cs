@@ -15,14 +15,14 @@ namespace FlockService.Data
             _context = context;
         }
 
-        public void CreateFlock(Flock cmd)
+        public void CreateFlock(Flock flock)
         {
-            if (cmd == null)
+            if (flock == null)
             {
-                throw new ArgumentException(nameof(cmd));
+                throw new ArgumentException(nameof(flock));
             }
 
-            _context.Flocks.Add(cmd);
+            _context.Flocks.Add(flock);
         }
 
         public void CreateFlock(int eggTypeId, Flock flock)
