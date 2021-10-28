@@ -32,10 +32,10 @@ namespace FlockService
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddDbContext<FlockContext>(opt => opt.UseInMemoryDatabase("InMem"));
-           // services.AddDbContext<CommandContext>(opt => opt.UseSqlServer
-           //     //(Configuration.GetConnectionString("FlockConnectionLokaal")));
-           //         (Configuration.GetConnectionString("FlockConnectionDocker"))); 
+            //services.AddDbContext<FlockContext>(opt => opt.UseInMemoryDatabase("InMem"));
+           services.AddDbContext<FlockContext>(opt => opt.UseSqlServer
+                //(Configuration.GetConnectionString("FlockConnectionLokaal")));
+                    (Configuration.GetConnectionString("FlockConnectionDocker"))); 
 
             services.AddControllers().AddNewtonsoftJson(s =>
             {
