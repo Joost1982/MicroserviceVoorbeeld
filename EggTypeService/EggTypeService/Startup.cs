@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -14,6 +13,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
+using MongoDB.Bson;
+using MongoDB.Driver;
+using Newtonsoft.Json.Serialization;
 
 namespace EggTypeService
 {
@@ -31,32 +35,35 @@ namespace EggTypeService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            if (_env.IsProduction())
-            {
-                Console.WriteLine("--> using ms-sql db");
-                services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer
-                    (Configuration.GetConnectionString("EggTypeConnectionDocker"))); //env var (zowel lokaal toegevoegd als aan de docker compose file)
-        }
-            else
-            {
-                Console.WriteLine("--> using inmem db");
-                services.AddDbContext<AppDbContext>(opt => 
-                    opt.UseInMemoryDatabase("InMem"));
-            }
+			///////// tell mongodb driver how to serialize types
 
-    services.AddScoped<IEggTypeRepo, EggTypeRepo>();
+            BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String)); //guid wordt string
+            BsonSerializer.RegisterSerializer(new DateTimeOffsetSerializer(BsonType.String)); // idem
+			
+            Console.WriteLine("--> using Mongodb");
+			services.AddSingleton<IMongoClient>(serviceProvider =>
+			{
+				return new MongoClient(Configuration.GetConnectionString("MongoDbConnection"));
+			}); // overal waar "IMongoClient" gevraagd wordt, injecteert container concrete "MongoClient" implementatie (met additionele info)
+
+
+			services.AddScoped<IEggTypeRepo, MongoEggTypeRepo>();
 
             services.AddHttpClient<IFlockDataClient, HttpFlockDataClient>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddControllers();
+			services.AddControllers().AddNewtonsoftJson(s =>
+            {
+                s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "EggTypeService", Version = "v1" });
             });
 
-            Console.WriteLine($"--> Command Service endpoint: {Configuration["CommandService"]}");
+            Console.WriteLine($"--> Flock Service endpoint: {Configuration["FlockService"]}");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

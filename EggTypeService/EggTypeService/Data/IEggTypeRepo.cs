@@ -14,7 +14,7 @@ namespace EggTypeService.Data
 
         EggType GetEggTypeById(int id);
 
-        void CreateEggType(EggType platform);
+        void CreateEggType(EggType eggtype);
 
     }
 }
