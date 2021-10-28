@@ -41,7 +41,7 @@ Voorbeeld Product:
 {
     "Id": 2,
     "ProductCode": "1112-3234 Eier braun",
-	"isActive": "1"
+    "isActive": "1",
     "EggType" : "Bio weiss/braun"
 }
 ```
