@@ -15,8 +15,9 @@ namespace ProductService.Data
         IEnumerable<EggType> GetAllEggTypes();
         void CreateEggType(EggType eggType);
         bool EggTypeExists(int eggTypeId);
-        
-        
+        bool ExternalEggTypeIdExists(int externalEggTypeId);
+
+
         // Products
         IEnumerable<Product> GetAllProducts();
         Product GetProductById(int id);

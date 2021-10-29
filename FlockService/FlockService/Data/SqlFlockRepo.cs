@@ -97,5 +97,9 @@ namespace FlockService.Data
             //doe niks
         }
 
+        public bool ExternalEggTypeIdExists(int externalEggTypeId)
+        {
+            return _context.EggTypes.Any(e => e.Id == externalEggTypeId);
+        }
     }
 }

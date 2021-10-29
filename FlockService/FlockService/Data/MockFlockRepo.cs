@@ -75,5 +75,10 @@ namespace FlockService.Data
         {
             throw new NotImplementedException();
         }
+
+        public bool ExternalEggTypeIdExists(int externalEggTypeId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

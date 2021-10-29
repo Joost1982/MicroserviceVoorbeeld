@@ -13,6 +13,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Serialization;
 using ProductService.Data;
+using ProductService.EventProcessing;
+using ProductService.AsyncDataServices;
 
 namespace ProductService
 {
@@ -41,8 +43,9 @@ namespace ProductService
 
             //services.AddScoped<IFlockRepo, MockFlockRepo>();
             services.AddScoped<IProductRepo, SqlProductRepo>();
-
+            services.AddSingleton<IEventProcessor, EventProcessor>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddHostedService<MessageBusSubscriber>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

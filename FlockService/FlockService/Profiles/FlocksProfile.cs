@@ -20,6 +20,8 @@ namespace FlockService.Profiles
             CreateMap<Flock, FlockUpdateDto>();
 
             CreateMap<EggType, EggTypeReadDto>();
+            CreateMap<EggTypePublishedDto, EggType>()
+                .ForMember(dest => dest.ExternalId, opt => opt.MapFrom(src => src.Id)); // expliciet aangeven dat de externalId van EggType komt vanuit EggTypePublishedDto
         }
     }
 }

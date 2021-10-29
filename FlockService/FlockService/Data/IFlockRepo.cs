@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FlockService.Dtos;
 using FlockService.Models;
 
 namespace FlockService.Data
@@ -15,6 +16,7 @@ namespace FlockService.Data
         IEnumerable<EggType> GetAllEggTypes();
         void CreateEggType(EggType eggType);
         bool EggTypeExists(int eggTypeId);
+        bool ExternalEggTypeIdExists(int externalEggTypeId);
         
         
         // Flocks (van andere tutorial)

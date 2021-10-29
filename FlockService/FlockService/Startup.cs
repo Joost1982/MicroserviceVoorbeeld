@@ -13,6 +13,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Serialization;
 using FlockService.Data;
+using FlockService.EventProcessing;
+using FlockService.AsyncDataServices;
 
 namespace FlockService
 {
@@ -33,7 +35,7 @@ namespace FlockService
         {
 
             //services.AddDbContext<FlockContext>(opt => opt.UseInMemoryDatabase("InMem"));
-           services.AddDbContext<FlockContext>(opt => opt.UseSqlServer
+           services.AddDbContext<FlockContext>(opt =>opt.UseSqlServer
                 //(Configuration.GetConnectionString("FlockConnectionLokaal")));
                     (Configuration.GetConnectionString("FlockConnectionDocker"))); 
 
@@ -44,8 +46,10 @@ namespace FlockService
 
             //services.AddScoped<IFlockRepo, MockFlockRepo>();
             services.AddScoped<IFlockRepo, SqlFlockRepo>();
-
+            services.AddSingleton<IEventProcessor, EventProcessor>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddHostedService<MessageBusSubscriber>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

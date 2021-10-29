@@ -1,6 +1,13 @@
 version: "3"  # optional since v1.27.0
 
 services:
+  rabbitmq-container:
+    image: rabbitmq:3-management
+    #expose:
+    #  - "5672"
+    ports:
+      - "5672:5672"
+      - "15672:15672"   # hier nog wel portbinding, omdat we RabbitMq van buitenaf willen benaderen via de browser
   nginx: 
     image: nginx:latest
     volumes:
@@ -23,10 +30,6 @@ services:
       - "27017:27017"   # hier nog wel portbinding, omdat we de database van buitenaf willen benaderen via MongoDB Compass
     volumes: 
       - mongodbdata:/data/db
-  rabbitmq-container:
-    image: rabbitmq:3-management
-    ports:
-      - "15672:15672"   # hier nog wel portbinding, omdat we RabbitMq van buitenaf willen benaderen via de browser
   eggtypeservice-api:
     # image: joost1982/eggtypeservice 		# dit kan ook (misschien zelfs beter zodat wijzigingen ook meegenomen worden): 		build: .
     build: ./EggTypeService/EggTypeService/.      # nb: maakt gebruik van Dockerfile in die map!
@@ -35,7 +38,10 @@ services:
     #ports:
     #  - "8080:80" # nb: geen port binding hier! server is van buiten niet meer direct te benaderen (gaat via nginx api gateway)
     expose:
-      - "80"    
+      - "80"  
+    restart: on-failure         #hacky oplossing ivm niet op tijd klaar zijn van rabbitmq container; nu start deze container opnieuw op als die geen verbinding krijgt      
+    depends_on:     # depends_on zorgt ervoor dat er gewacht wordt met opstarten voordat de image waar die op depend is opgestart
+      - "rabbitmq-container"      
   flockservice-api:
     build: ./FlockService/FlockService/.
     environment:
@@ -43,11 +49,17 @@ services:
     #ports:
     #  - "8081:80" # nb: geen port binding hier! server is van buiten niet meer direct te benaderen (gaat via nginx api gateway)
     expose:
-      - "80"    
+      - "80"  
+    restart: on-failure         #hacky oplossing ivm niet op tijd klaar zijn van rabbitmq container; nu start deze container opnieuw op als die geen verbinding krijgt      
+    depends_on:
+      - "rabbitmq-container"        
   productservice-api:
     build: ./ProductService/ProductService/.
     expose:
       - "80"  
+    restart: on-failure         #hacky oplossing ivm niet op tijd klaar zijn van rabbitmq container; nu start deze container opnieuw op als die geen verbinding krijgt
+    depends_on:
+      - "rabbitmq-container"        
 
 volumes:
   mongodbdata:
