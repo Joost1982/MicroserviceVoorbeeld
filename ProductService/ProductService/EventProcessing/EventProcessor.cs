@@ -44,7 +44,7 @@ namespace ProductService.EventProcessing
             switch (eventType)
             {
                 case EventType.EggTypePublished:
-                    //to do
+                    addEggType(message);
                     break;
                 default:
                     break;

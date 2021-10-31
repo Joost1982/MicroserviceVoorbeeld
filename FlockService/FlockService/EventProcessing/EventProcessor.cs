@@ -44,7 +44,7 @@ namespace FlockService.EventProcessing
             switch (eventType)
             {
                 case EventType.EggTypePublished:
-                    //to do (addEggType nog toevoegen?)
+                    addEggType(message);
                     break;
                 default:
                     break;
@@ -53,6 +53,8 @@ namespace FlockService.EventProcessing
 
         private void addEggType(string eggTypePublishedMessage)
         {
+
+
             //get reference to repo (kan niet via constructor injection ivm met verschil in levensduur van de objecten
             //hieronder wordt die reference op een andere manier opgehaald
             using (var scope = _scopeFactory.CreateScope())
@@ -64,6 +66,8 @@ namespace FlockService.EventProcessing
                 try
                 {
                     var eggType = _mapper.Map<EggType>(eggTypePublishedDto);
+
+
                     if (!repo.EggTypeExists(eggType.ExternalId))
                     {
                         repo.CreateEggType(eggType);

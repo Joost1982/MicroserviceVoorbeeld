@@ -18,7 +18,6 @@ namespace FlockService.Data
         bool EggTypeExists(int eggTypeId);
         bool ExternalEggTypeIdExists(int externalEggTypeId);
         
-        
         // Flocks (van andere tutorial)
         IEnumerable<Flock> GetAllFlocks();
         Flock GetFlockById(int id);

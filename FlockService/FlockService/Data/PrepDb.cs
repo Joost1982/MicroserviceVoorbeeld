@@ -47,9 +47,9 @@ namespace FlockService.Data
                 //dus eerst toe.
                 
                 context.EggTypes.AddRange(
-                    new EggType() { ExternalId = 10, Description = "Bruin Bio" },
-                    new EggType() { ExternalId = 20, Description = "Wit" },
-                    new EggType() { ExternalId = 30, Description = "Vrije uitloop" }
+                    new EggType() { Id = 1, ExternalId = 1, Description = "Bruin Bio" },
+                    new EggType() { Id = 2, ExternalId = 2, Description = "Wit" },
+                    new EggType() { Id = 3, ExternalId = 3, Description = "Vrije uitloop" }
                     );
 
                 context.Flocks.AddRange(

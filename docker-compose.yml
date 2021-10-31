@@ -3,10 +3,9 @@ version: "3"  # optional since v1.27.0
 services:
   rabbitmq-container:
     image: rabbitmq:3-management
-    #expose:
-    #  - "5672"
+    expose:
+      - "5672"
     ports:
-      - "5672:5672"
       - "15672:15672"   # hier nog wel portbinding, omdat we RabbitMq van buitenaf willen benaderen via de browser
   nginx: 
     image: nginx:latest
@@ -26,6 +25,8 @@ services:
       - sqlvolume:/var/opt/mssql    #add data volume zodat data bewaard blijft als container verwijderd wordt
   mongodb-server:
     image: mongo
+    logging:                    # logging uitgezet voor deze container omdat daar wel heel veel output vandaan komt
+      driver: none
     ports:
       - "27017:27017"   # hier nog wel portbinding, omdat we de database van buitenaf willen benaderen via MongoDB Compass
     volumes: 

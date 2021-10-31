@@ -29,8 +29,7 @@ namespace EggTypeService.SyncDataServices.Http
                 "application/json"
                 );
 
-            Console.WriteLine("debuuuuuuug: " + _configuration["FlockService"]);
-            var response = await _httpclient.PostAsync($"{_configuration["FlockService"]}", httpContent);
+            var response = await _httpclient.PostAsync($"{_configuration["FlockService"]}", httpContent);   // "FlockService": "http://flockservice-api:80/api/f/eggtypes"
 
             if (response.IsSuccessStatusCode) 
             { 
