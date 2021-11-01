@@ -20,7 +20,6 @@ namespace ProductService.Controllers
         {
             _repository = repository;
             _mapper = mapper;
-
         }
 
         [HttpGet]
@@ -30,7 +29,6 @@ namespace ProductService.Controllers
             var eggTypeItems = _repository.GetAllEggTypes();
 
             return Ok(_mapper.Map<IEnumerable<EggTypeReadDto>>(eggTypeItems));
-
         }
 
         [HttpPost]

@@ -17,6 +17,8 @@ namespace EggTypeService.Profiles
             CreateMap<EggType, EggTypeReadDto>();
             CreateMap<EggTypeCreateDto, EggType>();
             CreateMap<EggTypeReadDto, EggTypePublishedDto>();
+            CreateMap<EggType, GrpcEggTypeModel>()
+                .ForMember(dest => dest.EggTypeId, opt => opt.MapFrom(src => src.Id));
         }
     }
 }

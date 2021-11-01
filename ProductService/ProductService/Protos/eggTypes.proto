@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option csharp_namespace = "EggTypeService";
+
+service GrpcEggType {
+	rpc GetAllEggTypes (GetAllRequest) returns (EggTypeResponse);
+}
+
+message GetAllRequest {}
+
+message GrpcEggTypeModel {
+	int32 eggTypeId = 1; // 1 is de positie
+	//string name = 2;
+	//string publisher = 3;
+	string description = 2;
+}
+
+message EggTypeResponse {
+	repeated GrpcEggTypeModel eggtype = 1;
+}

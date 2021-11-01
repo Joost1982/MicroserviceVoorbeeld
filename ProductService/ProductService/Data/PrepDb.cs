@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ProductService.SyncDataServices.Grpc;
 
 namespace ProductService.Data
 {
@@ -15,18 +16,35 @@ namespace ProductService.Data
         {
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {
-                SeedData(serviceScope.ServiceProvider.GetService<ProductContext>(), isProductionEnv);
+                var grpcClient = serviceScope.ServiceProvider.GetService<IEggTypeDataClient>();
+
+                var eggTypes = grpcClient.ReturnAllEggTypes();
+
+                SeedData(serviceScope.ServiceProvider.GetService<ProductContext>(),
+                    serviceScope.ServiceProvider.GetService<IProductRepo>(),
+                    isProductionEnv, eggTypes);
             }
 
         }
 
-        private static void SeedData(ProductContext context, bool isProd)
+        private static void SeedData(ProductContext context, IProductRepo repo, bool isProd, IEnumerable<EggType> eggTypes)
         {
 
             if (!context.Products.Any())
             {
                 Console.WriteLine("--> Seeding Data...");
 
+                //EggTypes
+                foreach (var eggType in eggTypes)
+                {
+                    if (!repo.ExternalEggTypeIdExists(eggType.ExternalId))
+                    {
+                        repo.CreateEggType(eggType);
+                    }
+                    repo.SaveChanges();
+                }
+
+                //Products
                 context.Products.AddRange(
                     new Product() { ProductCode = "1111-22", isActive = true, EggTypeId = 1 },
                     new Product() { ProductCode = "1111-26", isActive = true , EggTypeId = 3 },

@@ -19,6 +19,7 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using Newtonsoft.Json.Serialization;
 using EggTypeService.AsyncDataServices;
+using EggTypeService.SyncDataServices.Grpc;
 
 namespace EggTypeService
 {
@@ -50,6 +51,8 @@ namespace EggTypeService
 
 			services.AddScoped<IEggTypeRepo, MongoEggTypeRepo>();
             services.AddSingleton<IMessageBusClient, MessageBusClient>();
+            
+            services.AddGrpc();
 
             services.AddHttpClient<IFlockDataClient, HttpFlockDataClient>();
 
@@ -87,6 +90,8 @@ namespace EggTypeService
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapGrpcService<GrpcEggTypeService>();
+
             });
 
             PrepDb.PrepPopulation(app, _env.IsProduction());

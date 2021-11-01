@@ -15,6 +15,7 @@ using Newtonsoft.Json.Serialization;
 using FlockService.Data;
 using FlockService.EventProcessing;
 using FlockService.AsyncDataServices;
+using FlockService.SyncDataServices.Grpc;
 
 namespace FlockService
 {
@@ -49,6 +50,7 @@ namespace FlockService
             services.AddSingleton<IEventProcessor, EventProcessor>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddHostedService<MessageBusSubscriber>();
+            services.AddScoped<IEggTypeDataClient, EggTypeDataClient>();
 
         }
 

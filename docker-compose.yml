@@ -40,9 +40,10 @@ services:
     #  - "8080:80" # nb: geen port binding hier! server is van buiten niet meer direct te benaderen (gaat via nginx api gateway)
     expose:
       - "80"  
+      - "443"
     restart: on-failure         #hacky oplossing ivm niet op tijd klaar zijn van rabbitmq container; nu start deze container opnieuw op als die geen verbinding krijgt      
     depends_on:     # depends_on zorgt ervoor dat er gewacht wordt met opstarten voordat de image waar die op depend is opgestart
-      - "rabbitmq-container"      
+      - "rabbitmq-container"    
   flockservice-api:
     build: ./FlockService/FlockService/.
     environment:

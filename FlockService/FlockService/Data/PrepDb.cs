@@ -1,4 +1,5 @@
 ﻿using FlockService.Models;
+using FlockService.SyncDataServices.Grpc;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,12 +16,18 @@ namespace FlockService.Data
         {
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {
-                SeedData(serviceScope.ServiceProvider.GetService<FlockContext>(), isProductionEnv);
+                var grpcClient = serviceScope.ServiceProvider.GetService<IEggTypeDataClient>();
+
+                var eggTypes = grpcClient.ReturnAllEggTypes();
+
+                SeedData(serviceScope.ServiceProvider.GetService<FlockContext>(),
+                    serviceScope.ServiceProvider.GetService<IFlockRepo>(),
+                    isProductionEnv, eggTypes);
             }
 
         }
 
-        private static void SeedData(FlockContext context, bool isProd)
+        private static void SeedData(FlockContext context, IFlockRepo repo, bool isProd, IEnumerable<EggType> eggTypes)
         {
             if (isProd)
             {
@@ -45,12 +52,26 @@ namespace FlockService.Data
                 //zonder records in de EggTypes tabel goed.
                 //Ik gebruik echter een MS-SQL db en dan gaat het mis want de fk's ontbreken. Die voeg ik hieronder
                 //dus eerst toe.
-                
-                context.EggTypes.AddRange(
-                    new EggType() { Id = 1, ExternalId = 1, Description = "Bruin Bio" },
-                    new EggType() { Id = 2, ExternalId = 2, Description = "Wit" },
-                    new EggType() { Id = 3, ExternalId = 3, Description = "Vrije uitloop" }
-                    );
+
+                //context.EggTypes.AddRange(
+                //    new EggType() { Id = 1, ExternalId = 1, Description = "Bruin Bio" },
+                //    new EggType() { Id = 2, ExternalId = 2, Description = "Wit" },
+                //    new EggType() { Id = 3, ExternalId = 3, Description = "Vrije uitloop" }
+                //    );
+
+                //na toevoegen van de gRPC connectie kan bovenstaande uit en doe we dit voor de EggTypes:
+                foreach (var eggType in eggTypes)
+                {
+                    if (!repo.ExternalEggTypeIdExists(eggType.ExternalId))
+                    {
+                        repo.CreateEggType(eggType);
+                    }
+                    repo.SaveChanges();
+                }
+
+
+
+                //en Flocks:
 
                 context.Flocks.AddRange(
                     new Flock() { FlockCode = "1111-22", Description = "Bennekom stal", EggTypeId = 1 },

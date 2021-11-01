@@ -14,6 +14,14 @@ RUN dotnet publish -c Release -o out
 FROM mcr.microsoft.com/dotnet/aspnet:5.0
 WORKDIR /app
 COPY --from=build-env /app/out .
+
+COPY eggtypeservice-api.pfx /https/
+#ENV vars voor ssl
+ENV ASPNETCORE_ENVIRONMENT=Development \                                   
+ ASPNETCORE_URLS="https://+:443;http://+:80" \
+ ASPNETCORE_Kestrel__Certificates__Default__Password=Geheim123 \
+ ASPNETCORE_Kestrel__Certificates__Default__Path="/https/eggtypeservice-api.pfx"
+
 ENTRYPOINT [ "dotnet", "EggTypeService.dll" ]
 
 

@@ -15,6 +15,7 @@ using Newtonsoft.Json.Serialization;
 using ProductService.Data;
 using ProductService.EventProcessing;
 using ProductService.AsyncDataServices;
+using ProductService.SyncDataServices.Grpc;
 
 namespace ProductService
 {
@@ -46,6 +47,7 @@ namespace ProductService
             services.AddSingleton<IEventProcessor, EventProcessor>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddHostedService<MessageBusSubscriber>();
+            services.AddScoped<IEggTypeDataClient, EggTypeDataClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
