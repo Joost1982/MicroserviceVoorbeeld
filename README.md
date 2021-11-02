@@ -19,7 +19,7 @@ Afwijkingen t.o.v. de cursus:
 <img src="https://github.com/Joost1982/MicroserviceVoorbeeld/blob/dapr/overzicht_rabbitMq.png" width="500">
 
 Bij het opstarten van de Flock Service en de Product Service worden de op dat moment bekende EggTypes via gRPC binnengehaald vanuit de EggType Service.
-Elk nieuw aangemaakte EggType in de EggType Service wordt gepublished naar de MessageBus en via listeners opgepikt door de Flock Service en de Product Service die ze daarna ook aanmaken in hun eigen databases.
+Elk nieuw aangemaakte EggType in de EggType Service wordt gepublished naar de MessageBus en door de Flock Service en de Product Service opgepikt die ze daarna ook aanmaken in hun eigen databases.
 
 *Models*
 
