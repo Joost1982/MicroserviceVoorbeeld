@@ -14,6 +14,9 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Serialization;
 using FlockService.Data;
 using FlockService.SyncDataServices.Grpc;
+using System.Net.Http;
+using FlockService.Controllers;
+using Dapr.Client;
 
 namespace FlockService
 {
@@ -38,15 +41,16 @@ namespace FlockService
                 //(Configuration.GetConnectionString("FlockConnectionLokaal")));
                     (Configuration.GetConnectionString("FlockConnectionDocker"))); 
 
-            services.AddControllers().AddNewtonsoftJson(s =>
-            {
-                s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-            });
-
             //services.AddScoped<IFlockRepo, MockFlockRepo>();
             services.AddScoped<IFlockRepo, SqlFlockRepo>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IEggTypeDataClient, EggTypeDataClient>();
+
+            services.AddHttpClient();
+            services.AddControllers().AddNewtonsoftJson(s =>
+            {
+                s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            });
 
         }
 

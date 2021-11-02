@@ -72,6 +72,7 @@ Van Flock Service:
 - **GET** 		/api/f/eggtypes/{eggTypeId}/flocks	
 - **GET** 		/api/f/eggtypes/{eggTypeId}/flocks/{flockId}
 - **POST** 		/api/f/eggtypes/{eggTypeId}/flocks
+- **GET**		/api/f/products/{id} [voor Dapr Service invocation voorbeeld: roept endpoint van Product Service aan via eigen sidecar]
 
 Van Product Service:
 - **GET**		/api/products
