@@ -30,6 +30,13 @@ services:
       - "27017:27017"   # hier nog wel portbinding, omdat we de database van buitenaf willen benaderen via MongoDB Compass
     volumes: 
       - mongodbdata:/data/db
+  ############################
+  # Redis state store
+  ############################
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6380:6379"
   ###################################
   # EggType Service + Dapr sidecar
   ###################################
@@ -46,6 +53,7 @@ services:
     depends_on:     # depends_on zorgt ervoor dat er gewacht wordt met opstarten voordat de image waar die op depend is opgestart
       - rabbitmq-container
       - mongodb-server
+      - redis
   eggtypeservice-api-dapr:
     image: "daprio/daprd:latest"
     command: [ "./daprd", "-app-id", "eggtypeservice-api", "-app-port", "80", "-dapr-http-port", "3600", "-dapr-grpc-port", "60000", "-components-path", "/components" ]

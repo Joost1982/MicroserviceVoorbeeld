@@ -2,7 +2,7 @@
 
 Losjes gebaseerd op ".NET Microservices – Full Course" van Les Jackson (https://www.youtube.com/watch?v=DgVjEo3OGBI).
 
-**[versie inclusief pub/sub + service invocation componenten van Dapr]**
+**[versie inclusief pub/sub, service invocation en state management componenten van Dapr]**
 (<a href="https://github.com/Joost1982/MicroserviceVoorbeeld/tree/master">klik hier voor de versie zonder Dapr</a>)
 
 Afwijkingen t.o.v. de cursus:
@@ -12,8 +12,12 @@ Afwijkingen t.o.v. de cursus:
 - Flock Service gebruikt een MS-SQL database (de vergelijkbare service heeft in de tutorial een inMem db)
 - De Flock Service is gebaseerd op Les Jacksons ".NET Core 3.1 MVC REST API - Full Course" (https://www.youtube.com/watch?v=fmvcAzHpsk8)
 - ConnectionStrings niet in appsettings.json maar als env vars
-- **deze versie maakt gebruikt van Dapr waardoor er in de code geen enkele verwijzing meer naar RabbitMq nodig is (en daardoor makkelijk vervangen kan worden door bijvoorbeeld Redis als dat nodig is)**
-- **Flock Service bevat een endpoint (/api/f/products/{id}) waarin d.m.v. Dapr Service invocation een service van Product Service wordt aangeroepen via de eigen sidecar**
+
+Dapr toevoegingen:
+- Pub/sub: code bevat geen enkele verwijzing meer naar RabbitMq (kan daardoor makkelijk vervangen worden door bijvoorbeeld Redis als dat nodig is)
+- Service invocation: Flock Service bevat een endpoint (/api/f/products/{id}) waarin d.m.v. Dapr Service invocation een service van Product Service wordt aangeroepen via de eigen sidecar
+- State management: bij een POST in de EggType Service wordt er een teller bijgehouden in een redis key-value database die uitgelezen kan worden via /api/eggtypes/state/bij . 
+Ook hier geldt dat er in de code geen verwijzing is naar de (Redis) implementatie dankzij Dapr, waardoor switchen (naar bijvoorbeeld Cosmos Db) vrij makkelijk gaat.
 
 *Overzicht*
 
@@ -59,7 +63,8 @@ Voorbeeld Product:
 Van EggType Service:
 - **GET**		/api/eggtypes	
 - **GET** 		/api/eggtypes/{id}		
-- **POST**		/api/eggtypes		(verwijst via pubsub door naar "/api/f/eggtypes" van Flock Service)
+- **POST**		/api/eggtypes		(verwijst via pubsub door naar "/api/f/eggtypes" van Flock Service + houdt teller bij via state management in redis)
+- **GET** 		/api/eggtypes/state/bij [voor Dapr State management test: endpoint haalt bovengenoemde teller op]	
 
 Van Flock Service:
 - **GET**		/api/flocks
