@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Dapr;
 using FlockService.Data;
 using FlockService.Dtos;
+using FlockService.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -33,11 +35,42 @@ namespace FlockService.Controllers
 
         }
 
+        //[HttpPost]
+        //public ActionResult TestInboundConnection()
+        //{
+        //    Console.WriteLine(" --> binnenkomende POST (Flock Service)");
+        //    return Ok("Inbound test from EggTypes Controller (from Flock Service)");
+        //}
+
         [HttpPost]
-        public ActionResult TestInboundConnection()
+        [Topic("pubsub", "trigger")]        // door deze annotatie is dit endpoint geregistreerd als subscriber (elke keer als er een message is wordt de method uitgevoerd)
+        public ActionResult AddEggType(EggTypePublishedDto eggTypePublishedDto)
+        // via "app.UseCloudEvents()" in Startup wordt er (via middleware) de payload vanuit de messagebus gehaald -> eggTypePublishedDto
         {
-            Console.WriteLine(" --> binnenkomende POST (Flock Service)");
-            return Ok("Inbound test from EggTypes Controller (from Flock Service)");
+            Console.WriteLine(" --> binnenkomende POST vanuit EggType Service via Message Bus (Flock Service)");
+
+            try
+            {
+                var eggType = _mapper.Map<EggType>(eggTypePublishedDto);
+                if (!_repository.EggTypeExists(eggType.ExternalId))
+                {
+                    _repository.CreateEggType(eggType);
+                    _repository.SaveChanges();
+                    Console.WriteLine($"--> added eggtype to dabase: {eggType.Description}");
+                }
+                else
+                {
+                    Console.WriteLine($"--> eggtype already exists, not added to db: {eggType.Description}");
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"--> Could not add eggType to db: {e}");
+            }
+
+            return Ok();
         }
     }
 }

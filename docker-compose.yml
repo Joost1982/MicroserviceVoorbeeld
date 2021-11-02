@@ -1,19 +1,18 @@
 version: "3"  # optional since v1.27.0
 
 services:
+  ###################################
+  # Message Bus
+  ###################################
   rabbitmq-container:
     image: rabbitmq:3-management
     expose:
       - "5672"
     ports:
-      - "15672:15672"   # hier nog wel portbinding, omdat we RabbitMq van buitenaf willen benaderen via de browser
-  nginx: 
-    image: nginx:latest
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-    ports:
-      - "80:80"
-      - "443:443"
+      - "15672:15672"   # hier nog wel portbinding, omdat we RabbitMq van buitenaf willen benaderen via de browser  
+  ###################################
+  # Database containers
+  ###################################
   ms-sql-server:
     image: mcr.microsoft.com/mssql/server:2019-latest
     environment:
@@ -31,8 +30,10 @@ services:
       - "27017:27017"   # hier nog wel portbinding, omdat we de database van buitenaf willen benaderen via MongoDB Compass
     volumes: 
       - mongodbdata:/data/db
+  ###################################
+  # EggType Service + Dapr sidecar
+  ###################################
   eggtypeservice-api:
-    # image: joost1982/eggtypeservice 		# dit kan ook (misschien zelfs beter zodat wijzigingen ook meegenomen worden): 		build: .
     build: ./EggTypeService/EggTypeService/.      # nb: maakt gebruik van Dockerfile in die map!
     environment:
       ConnectionStrings__MongoDbConnection: mongodb://mongodb-server:27017
@@ -43,7 +44,20 @@ services:
       - "443"
     restart: on-failure         #hacky oplossing ivm niet op tijd klaar zijn van rabbitmq container; nu start deze container opnieuw op als die geen verbinding krijgt      
     depends_on:     # depends_on zorgt ervoor dat er gewacht wordt met opstarten voordat de image waar die op depend is opgestart
-      - "rabbitmq-container"    
+      - rabbitmq-container
+      - mongodb-server
+  eggtypeservice-api-dapr:
+    image: "daprio/daprd:latest"
+    command: [ "./daprd", "-app-id", "eggtypeservice-api", "-app-port", "80", "-dapr-http-port", "3600", "-dapr-grpc-port", "60000", "-components-path", "/components" ]
+    restart: on-failure      
+    depends_on:
+      - eggtypeservice-api
+    volumes:
+        - "./dapr/components/:/components" # Mount our components folder for the runtime to use
+#    network_mode: "service:eggtypeservice-api"        
+  ###################################
+  # Flock Service + Dapr sidecar
+  ###################################    
   flockservice-api:
     build: ./FlockService/FlockService/.
     environment:
@@ -54,14 +68,53 @@ services:
       - "80"  
     restart: on-failure         #hacky oplossing ivm niet op tijd klaar zijn van rabbitmq container; nu start deze container opnieuw op als die geen verbinding krijgt      
     depends_on:
-      - "rabbitmq-container"        
+      - rabbitmq-container
+      - ms-sql-server
+      - eggtypeservice-api      
+  flockservice-api-dapr:
+    image: "daprio/daprd:latest"
+    command: [ "./daprd", "-app-id", "flockservice-api", "-app-port", "80", "-dapr-http-port", "3601", "-dapr-grpc-port", "60001", "-components-path", "/components" ]
+    restart: on-failure      
+    depends_on:
+      - flockservice-api
+    volumes:
+        - "./dapr/components/:/components"
+    network_mode: "service:flockservice-api"   #als je dit niet hebt, subscribed de service niet!       
+  ###################################
+  # Product Service + Dapr sidecar
+  ###################################      
   productservice-api:
     build: ./ProductService/ProductService/.
     expose:
       - "80"  
     restart: on-failure         #hacky oplossing ivm niet op tijd klaar zijn van rabbitmq container; nu start deze container opnieuw op als die geen verbinding krijgt
     depends_on:
-      - "rabbitmq-container"        
+      - rabbitmq-container  
+      - eggtypeservice-api      
+  productservice-api-dapr:
+    image: "daprio/daprd:latest"
+    command: [ "./daprd", "-app-id", "productservice-api", "-app-port", "80", "-dapr-http-port", "3602", "-dapr-grpc-port", "60002", "-components-path", "/components" ]
+    restart: on-failure      
+    depends_on:
+      - productservice-api
+    volumes:
+        - "./dapr/components/:/components"
+    network_mode: "service:productservice-api"   #als je dit niet hebt, subscribed de service niet!   
+  ###################################
+  # API Gateway
+  ###################################
+  nginx: 
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - eggtypeservice-api     
+      - flockservice-api 
+      - productservice-api       
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: on-failure   
 
 volumes:
   mongodbdata:

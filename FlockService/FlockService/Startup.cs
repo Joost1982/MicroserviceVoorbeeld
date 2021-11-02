@@ -13,8 +13,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Serialization;
 using FlockService.Data;
-using FlockService.EventProcessing;
-using FlockService.AsyncDataServices;
 using FlockService.SyncDataServices.Grpc;
 
 namespace FlockService
@@ -47,9 +45,7 @@ namespace FlockService
 
             //services.AddScoped<IFlockRepo, MockFlockRepo>();
             services.AddScoped<IFlockRepo, SqlFlockRepo>();
-            services.AddSingleton<IEventProcessor, EventProcessor>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddHostedService<MessageBusSubscriber>();
             services.AddScoped<IEggTypeDataClient, EggTypeDataClient>();
 
         }
@@ -62,14 +58,17 @@ namespace FlockService
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCloudEvents();
 
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapSubscribeHandler();    // hierdoor weet Dapr welke endpoints geannoteerd zijn (gesubscribed)
                 endpoints.MapControllers();
             });
 
