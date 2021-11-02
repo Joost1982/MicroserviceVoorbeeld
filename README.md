@@ -13,7 +13,7 @@ Afwijkingen t.o.v. de cursus:
 - De Flock Service is gebaseerd op Les Jacksons ".NET Core 3.1 MVC REST API - Full Course" (https://www.youtube.com/watch?v=fmvcAzHpsk8)
 - ConnectionStrings niet in appsettings.json maar als env vars
 - **deze versie maakt gebruikt van Dapr waardoor er in de code geen enkele verwijzing meer naar RabbitMq nodig is (en daardoor makkelijk vervangen kan worden door bijvoorbeeld Redis als dat nodig is)**
-- **Flock Service bevat een endpoint (/api/f/products/{id}) waarin d.m.v. Dapr Service invocation een service van Product Service wordt aangeroepen via de eigen sidecar
+- **Flock Service bevat een endpoint (/api/f/products/{id}) waarin d.m.v. Dapr Service invocation een service van Product Service wordt aangeroepen via de eigen sidecar**
 
 *Overzicht*
 
