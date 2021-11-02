@@ -73,7 +73,7 @@ services:
       - eggtypeservice-api      
   flockservice-api-dapr:
     image: "daprio/daprd:latest"
-    command: [ "./daprd", "-app-id", "flockservice-api", "-app-port", "80", "-dapr-http-port", "3601", "-dapr-grpc-port", "60001", "-components-path", "/components" ]
+    command: [ "./daprd", "-app-id", "flockservice-api", "-app-port", "80", "-dapr-http-port", "3600", "-dapr-grpc-port", "60000", "-components-path", "/components" ]
     restart: on-failure      
     depends_on:
       - flockservice-api
@@ -93,7 +93,7 @@ services:
       - eggtypeservice-api      
   productservice-api-dapr:
     image: "daprio/daprd:latest"
-    command: [ "./daprd", "-app-id", "productservice-api", "-app-port", "80", "-dapr-http-port", "3602", "-dapr-grpc-port", "60002", "-components-path", "/components" ]
+    command: [ "./daprd", "-app-id", "productservice-api", "-app-port", "80", "-dapr-http-port", "3600", "-dapr-grpc-port", "60000", "-components-path", "/components" ]
     restart: on-failure      
     depends_on:
       - productservice-api
