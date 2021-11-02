@@ -1,6 +1,9 @@
-# MicroserviceVoorbeeld
+# MicroserviceVoorbeeld [Dapr]
 
 Losjes gebaseerd op ".NET Microservices – Full Course" van Les Jackson (https://www.youtube.com/watch?v=DgVjEo3OGBI).
+
+**[versie inclusief pub/sub component van Dapr]**
+(<a href="https://github.com/Joost1982/MicroserviceVoorbeeld/tree/master">klik hier voor de versie zonder Dapr</a>)
 
 Afwijkingen t.o.v. de cursus:
 - Andere Models: Platform -> EggType en Command -> Flock en eentje extra: Product
@@ -9,6 +12,7 @@ Afwijkingen t.o.v. de cursus:
 - Flock Service gebruikt een MS-SQL database (de vergelijkbare service heeft in de tutorial een inMem db)
 - De Flock Service is gebaseerd op Les Jacksons ".NET Core 3.1 MVC REST API - Full Course" (https://www.youtube.com/watch?v=fmvcAzHpsk8)
 - ConnectionStrings niet in appsettings.json maar als env vars
+- **deze versie maakt gebruikt van Dapr waardoor er in de code geen enkele verwijzing meer naar RabbitMq nodig is (en daardoor makkelijk vervangen kan worden door bijvoorbeeld Redis als dat nodig is) **
 
 *Overzicht*
 
@@ -54,7 +58,7 @@ Voorbeeld Product:
 Van EggType Service:
 - **GET**		/api/eggtypes	
 - **GET** 		/api/eggtypes/{id}		
-- **POST**		/api/eggtypes		(verwijst ook door naar "/api/f/eggtypes" van Flock Service)
+- **POST**		/api/eggtypes		(verwijst via pubsub door naar "/api/f/eggtypes" van Flock Service)
 
 Van Flock Service:
 - **GET**		/api/flocks
@@ -64,7 +68,7 @@ Van Flock Service:
 - **PATCH**		/api/flocks/{id}
 - **DELETE**	/api/flocks/{id}
 - **GET** 		/api/f/eggtypes	 [toont de voor de Flock Service beschikbare EggTypes] 
-- **POST** 		/api/f/eggtypes	 [wordt aangeroepen vanuit "/api/eggtypes" POST van EggType Service]
+- **POST** 		/api/f/eggtypes	 [wordt aangeroepen via pubsub vanuit "/api/eggtypes" POST van EggType Service]
 - **GET** 		/api/f/eggtypes/{eggTypeId}/flocks	
 - **GET** 		/api/f/eggtypes/{eggTypeId}/flocks/{flockId}
 - **POST** 		/api/f/eggtypes/{eggTypeId}/flocks
@@ -77,7 +81,7 @@ Van Product Service:
 - **PATCH**		/api/products/{id}
 - **DELETE**	/api/products/{id}
 - **GET** 		/api/p/eggtypes	 [toont de voor de Product Service beschikbare EggTypes] 
-- **POST** 		/api/p/eggtypes	 [wordt aangeroepen vanuit "/api/eggtypes" POST van EggType Service]
+- **POST** 		/api/p/eggtypes	 [wordt aangeroepen via pubsub vanuit "/api/eggtypes" POST van EggType Service]
 - **GET** 		/api/p/eggtypes/{eggTypeId}/products	
 - **GET** 		/api/p/eggtypes/{eggTypeId}/products/{productId}
 - **POST** 		/api/p/eggtypes/{eggTypeId}/products
