@@ -2,7 +2,7 @@
 
 Losjes gebaseerd op ".NET Microservices – Full Course" van Les Jackson (https://www.youtube.com/watch?v=DgVjEo3OGBI).
 
-**[versie zonder pub/sub component van Dapr]**
+**[versie zonder Dapr componenten]**
 (<a href="https://github.com/Joost1982/MicroserviceVoorbeeld/tree/dapr">klik hier voor de versie inclusief Dapr</a>)
 
 Afwijkingen t.o.v. de cursus:
