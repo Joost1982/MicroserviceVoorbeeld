@@ -57,7 +57,7 @@ Voorbeeld Product:
 Van EggType Service:
 - **GET**		/api/eggtypes	
 - **GET** 		/api/eggtypes/{id}		
-- **POST**		/api/eggtypes		(verwijst ook door naar "/api/f/eggtypes" van Flock Service)
+- **POST**		/api/eggtypes		(verwijst via pubsub door naar "/api/f/eggtypes" van Flock Service)
 
 Van Flock Service:
 - **GET**		/api/flocks
@@ -67,7 +67,7 @@ Van Flock Service:
 - **PATCH**		/api/flocks/{id}
 - **DELETE**	/api/flocks/{id}
 - **GET** 		/api/f/eggtypes	 [toont de voor de Flock Service beschikbare EggTypes] 
-- **POST** 		/api/f/eggtypes	 [wordt aangeroepen vanuit "/api/eggtypes" POST van EggType Service]
+- **POST** 		/api/f/eggtypes	 [wordt aangeroepen via pubsub vanuit "/api/eggtypes" POST van EggType Service]
 - **GET** 		/api/f/eggtypes/{eggTypeId}/flocks	
 - **GET** 		/api/f/eggtypes/{eggTypeId}/flocks/{flockId}
 - **POST** 		/api/f/eggtypes/{eggTypeId}/flocks
@@ -80,7 +80,7 @@ Van Product Service:
 - **PATCH**		/api/products/{id}
 - **DELETE**	/api/products/{id}
 - **GET** 		/api/p/eggtypes	 [toont de voor de Product Service beschikbare EggTypes] 
-- **POST** 		/api/p/eggtypes	 [wordt aangeroepen vanuit "/api/eggtypes" POST van EggType Service]
+- **POST** 		/api/p/eggtypes	 [wordt aangeroepen via pubsub vanuit "/api/eggtypes" POST van EggType Service]
 - **GET** 		/api/p/eggtypes/{eggTypeId}/products	
 - **GET** 		/api/p/eggtypes/{eggTypeId}/products/{productId}
 - **POST** 		/api/p/eggtypes/{eggTypeId}/products
