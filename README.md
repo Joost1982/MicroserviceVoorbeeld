@@ -2,6 +2,9 @@
 
 Losjes gebaseerd op ".NET Microservices – Full Course" van Les Jackson (https://www.youtube.com/watch?v=DgVjEo3OGBI).
 
+**[versie zonder pub/sub component van Dapr]**
+(<a href="https://github.com/Joost1982/MicroserviceVoorbeeld/tree/dapr">klik hier voor de versie inclusief Dapr</a>)
+
 Afwijkingen t.o.v. de cursus:
 - Andere Models: Platform -> EggType en Command -> Flock en eentje extra: Product
 - Geen Kubernetes, maar Docker Compose
