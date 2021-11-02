@@ -12,7 +12,7 @@ Afwijkingen t.o.v. de cursus:
 - Flock Service gebruikt een MS-SQL database (de vergelijkbare service heeft in de tutorial een inMem db)
 - De Flock Service is gebaseerd op Les Jacksons ".NET Core 3.1 MVC REST API - Full Course" (https://www.youtube.com/watch?v=fmvcAzHpsk8)
 - ConnectionStrings niet in appsettings.json maar als env vars
-- **deze versie maakt gebruikt van Dapr waardoor er in de code geen enkele verwijzing meer naar RabbitMq nodig is (en daardoor makkelijk vervangen kan worden door bijvoorbeeld Redis als dat nodig is) **
+- **deze versie maakt gebruikt van Dapr waardoor er in de code geen enkele verwijzing meer naar RabbitMq nodig is (en daardoor makkelijk vervangen kan worden door bijvoorbeeld Redis als dat nodig is)**
 
 *Overzicht*
 
