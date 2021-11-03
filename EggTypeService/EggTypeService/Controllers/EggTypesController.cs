@@ -74,10 +74,9 @@ namespace EggTypeService.Controllers
                 var eggTypePublishedDto = _mapper.Map<EggTypePublishedDto>(eggTypeReadDto);
                 eggTypePublishedDto.Event = "EggType_Published";
 
-                //nu met dapr:
-                Console.WriteLine("--> Debuuug: publish message with Dapr");
+                //nu met dapr (en test met toegevoegde class library):
+                LogExampleLibrary.Logger.Log("--> Debuuug: publish message with Dapr"); // of voeg bovenaan "using LogExampleLibrary;" toe 
                 await daprClient.PublishEventAsync("pubsub", "trigger", eggTypePublishedDto);
-                Console.WriteLine("--> **** dapr klaar?");
             }
             catch (Exception ex)
             {

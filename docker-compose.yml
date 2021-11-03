@@ -41,7 +41,9 @@ services:
   # EggType Service + Dapr sidecar
   ###################################
   eggtypeservice-api:
-    build: ./EggTypeService/EggTypeService/.      # nb: maakt gebruik van Dockerfile in die map!
+    build: ./EggTypeService/.      # nb: maakt gebruik van Dockerfile in die map 
+    # nb: DockerFile 1 map hoger dan bij andere services ivm Class Library project (Logger) die er bij zit en anders niet gevonden kan worden (ivm relatief pad in csproj)
+    # Dockerfile ziet er hier dan ook iets anders uit
     environment:
       ConnectionStrings__MongoDbConnection: mongodb://mongodb-server:27017
     #ports:
