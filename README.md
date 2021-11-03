@@ -15,7 +15,7 @@ Afwijkingen t.o.v. de cursus:
 
 Dapr toevoegingen:
 - Pub/sub: code bevat geen enkele verwijzing meer naar RabbitMq (kan daardoor makkelijk vervangen worden door bijvoorbeeld Redis als dat nodig is)
-- Service-to-service invocation: Flock Service bevat een endpoint (/api/f/products/{id}) waarin d.m.v. Dapr Service invocation een service van Product Service wordt aangeroepen via de eigen sidecar
+- Service-to-service invocation: Flock Service bevat een endpoint (/api/f/products/{id}) waarin d.m.v. Dapr Service-to-service invocation een service van Product Service wordt aangeroepen via de eigen sidecar
 - State management: bij een POST in de EggType Service wordt er een teller bijgehouden in een redis key-value database die uitgelezen kan worden via /api/eggtypes/state/bij . 
 Ook hier geldt dat er in de code geen verwijzing is naar de (Redis) implementatie dankzij Dapr, waardoor switchen (naar bijvoorbeeld Cosmos Db) vrij makkelijk gaat.
 
