@@ -2,7 +2,7 @@
 
 Losjes gebaseerd op ".NET Microservices – Full Course" van Les Jackson (https://www.youtube.com/watch?v=DgVjEo3OGBI).
 
-**[versie inclusief pub/sub, service invocation en state management componenten van Dapr]**
+**[versie inclusief pub/sub, service-to-service invocation en state management componenten van Dapr]**
 (<a href="https://github.com/Joost1982/MicroserviceVoorbeeld/tree/master">klik hier voor de versie zonder Dapr</a>)
 
 Afwijkingen t.o.v. de cursus:
@@ -15,7 +15,7 @@ Afwijkingen t.o.v. de cursus:
 
 Dapr toevoegingen:
 - Pub/sub: code bevat geen enkele verwijzing meer naar RabbitMq (kan daardoor makkelijk vervangen worden door bijvoorbeeld Redis als dat nodig is)
-- Service invocation: Flock Service bevat een endpoint (/api/f/products/{id}) waarin d.m.v. Dapr Service invocation een service van Product Service wordt aangeroepen via de eigen sidecar
+- Service-to-service invocation: Flock Service bevat een endpoint (/api/f/products/{id}) waarin d.m.v. Dapr Service invocation een service van Product Service wordt aangeroepen via de eigen sidecar
 - State management: bij een POST in de EggType Service wordt er een teller bijgehouden in een redis key-value database die uitgelezen kan worden via /api/eggtypes/state/bij . 
 Ook hier geldt dat er in de code geen verwijzing is naar de (Redis) implementatie dankzij Dapr, waardoor switchen (naar bijvoorbeeld Cosmos Db) vrij makkelijk gaat.
 
@@ -78,7 +78,7 @@ Van Flock Service:
 - **GET** 		/api/f/eggtypes/{eggTypeId}/flocks	
 - **GET** 		/api/f/eggtypes/{eggTypeId}/flocks/{flockId}
 - **POST** 		/api/f/eggtypes/{eggTypeId}/flocks
-- **GET**		/api/f/products/{id} [voor Dapr Service invocation voorbeeld: roept endpoint van Product Service aan via eigen sidecar]
+- **GET**		/api/f/products/{id} [voor Dapr Service-to-service invocation voorbeeld: roept endpoint van Product Service aan via eigen sidecar]
 
 Van Product Service:
 - **GET**		/api/products
