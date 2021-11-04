@@ -18,7 +18,6 @@ using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Newtonsoft.Json.Serialization;
-using EggTypeService.AsyncDataServices;
 using EggTypeService.SyncDataServices.Grpc;
 
 namespace EggTypeService
@@ -50,13 +49,17 @@ namespace EggTypeService
 
 
 			services.AddScoped<IEggTypeRepo, MongoEggTypeRepo>();
-            services.AddSingleton<IMessageBusClient, MessageBusClient>();
             
             services.AddGrpc();
 
             services.AddHttpClient<IFlockDataClient, HttpFlockDataClient>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            //dapr (endpoints voor de sidecar)
+            services.AddDaprClient(builder => builder
+                .UseHttpEndpoint($"http://eggtypeservice-api-dapr:3600")
+                .UseGrpcEndpoint($"http://eggtypeservice-api-dapr:60000"));
 
             services.AddControllers();
 			services.AddControllers().AddNewtonsoftJson(s =>
@@ -81,7 +84,7 @@ namespace EggTypeService
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EggTypeService v1"));
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 

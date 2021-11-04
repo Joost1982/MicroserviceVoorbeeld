@@ -8,7 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EggTypeService.AsyncDataServices;
+using Dapr.Client;
+using Dapr;
 
 namespace EggTypeService.Controllers
 {
@@ -18,19 +19,17 @@ namespace EggTypeService.Controllers
     {
         private readonly IEggTypeRepo _repository;
         private readonly IMapper _mapper;
-        private readonly IFlockDataClient _commandDataClient;
-        private readonly IMessageBusClient _messageBusClient;
+        private readonly DaprClient _dapprClient;
+        private const string STATESTORE_NAME = "eggstatestore"; // voor Dapr statemanagement voorbeeld
 
         public EggTypesController(
             IEggTypeRepo repository, 
             IMapper mapper,
-            IFlockDataClient flockDataClient,
-            IMessageBusClient messageBusClient)
+            DaprClient daprClient)
         {
             _repository = repository;
             _mapper = mapper;
-            _commandDataClient = flockDataClient;
-            _messageBusClient = messageBusClient;
+            _dapprClient = daprClient;  // voor state management test
         }
 
         [HttpGet]
@@ -52,7 +51,8 @@ namespace EggTypeService.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<EggTypeReadDto>> CreatePlatform(EggTypeCreateDto eggTypeCreateDto)
+        public async Task<ActionResult<EggTypeReadDto>> CreateEggType(EggTypeCreateDto eggTypeCreateDto, 
+            [FromServices] DaprClient daprClient)
         {
 
             var eggTypeModel = _mapper.Map<EggType>(eggTypeCreateDto);
@@ -64,35 +64,45 @@ namespace EggTypeService.Controllers
             var eggTypeReadDto = _mapper.Map<EggTypeReadDto>(eggTypeModel);
 
             
-            // send Sync message (van microservice naar microservice)
-
-            try
-            {
-                await _commandDataClient.SendEggTypeToFlock(eggTypeReadDto);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"--> Could not send synchronously: {ex.Message}");
-            }
-
             // send Async message (van microservice naar messagebus)
 
             try
             {
                 var eggTypePublishedDto = _mapper.Map<EggTypePublishedDto>(eggTypeReadDto);
                 eggTypePublishedDto.Event = "EggType_Published";
-                _messageBusClient.PublishNewEggType(eggTypePublishedDto);
+
+                //nu met dapr (en test met toegevoegde class library):
+                LogExampleLibrary.Logger.Log("--> Debuuug: publish message with Dapr"); // of voeg bovenaan "using LogExampleLibrary;" toe 
+                await daprClient.PublishEventAsync("pubsub", "trigger", eggTypePublishedDto);
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"--> Could not send asynchronously: {ex.Message}");
+                Console.WriteLine($"--> InnerException: {ex.InnerException}");
             }
 
+
+            // voor Dapr statemanagement (bijhouden hoe vaak er gePOST is) nb: zonder enige redis code! Dapr doet alles. En state store is eenvoudig te switchen
+            int aantal = await _dapprClient.GetStateAsync<int>(STATESTORE_NAME, "bij");
+            aantal += 1;
+            await _dapprClient.SaveStateAsync(STATESTORE_NAME, "bij", aantal);
 
 
             return CreatedAtRoute(nameof(GetEggTypeById), new { Id = eggTypeReadDto.Id }, eggTypeReadDto);
                 //CreatedAtRoute returned een 201 en een locatie (een route)
         }
+
+
+
+        // endpoint mbt Dapr State Management test (via /api/state/bij kun je zien hoevaak er een eggtype gePOST is)
+        [HttpGet]
+        [Route("state/bij")]
+        public async Task<int> GetState()
+        {
+            int aantal = await _dapprClient.GetStateAsync<int>(STATESTORE_NAME, "bij");
+            return aantal;
+        }
+
 
     }
 }

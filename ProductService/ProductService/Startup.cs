@@ -13,8 +13,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Serialization;
 using ProductService.Data;
-using ProductService.EventProcessing;
-using ProductService.AsyncDataServices;
 using ProductService.SyncDataServices.Grpc;
 
 namespace ProductService
@@ -42,11 +40,11 @@ namespace ProductService
                 s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
 
+            services.AddControllers().AddDapr(); // ???
+
             //services.AddScoped<IFlockRepo, MockFlockRepo>();
             services.AddScoped<IProductRepo, SqlProductRepo>();
-            services.AddSingleton<IEventProcessor, EventProcessor>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddHostedService<MessageBusSubscriber>();
             services.AddScoped<IEggTypeDataClient, EggTypeDataClient>();
         }
 
@@ -58,14 +56,17 @@ namespace ProductService
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCloudEvents();
 
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapSubscribeHandler();    // hierdoor weet Dapr welke endpoints geannoteerd zijn (gesubscribed)
                 endpoints.MapControllers();
             });
 

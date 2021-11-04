@@ -13,9 +13,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Serialization;
 using FlockService.Data;
-using FlockService.EventProcessing;
-using FlockService.AsyncDataServices;
 using FlockService.SyncDataServices.Grpc;
+using System.Net.Http;
+using FlockService.Controllers;
+using Dapr.Client;
 
 namespace FlockService
 {
@@ -40,17 +41,16 @@ namespace FlockService
                 //(Configuration.GetConnectionString("FlockConnectionLokaal")));
                     (Configuration.GetConnectionString("FlockConnectionDocker"))); 
 
+            //services.AddScoped<IFlockRepo, MockFlockRepo>();
+            services.AddScoped<IFlockRepo, SqlFlockRepo>();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddScoped<IEggTypeDataClient, EggTypeDataClient>();
+
+            services.AddHttpClient();
             services.AddControllers().AddNewtonsoftJson(s =>
             {
                 s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
-
-            //services.AddScoped<IFlockRepo, MockFlockRepo>();
-            services.AddScoped<IFlockRepo, SqlFlockRepo>();
-            services.AddSingleton<IEventProcessor, EventProcessor>();
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddHostedService<MessageBusSubscriber>();
-            services.AddScoped<IEggTypeDataClient, EggTypeDataClient>();
 
         }
 
@@ -62,14 +62,17 @@ namespace FlockService
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCloudEvents();
 
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapSubscribeHandler();    // hierdoor weet Dapr welke endpoints geannoteerd zijn (gesubscribed)
                 endpoints.MapControllers();
             });
 

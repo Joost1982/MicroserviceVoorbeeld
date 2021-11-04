@@ -1,9 +1,9 @@
-# MicroserviceVoorbeeld
+# MicroserviceVoorbeeld [Dapr]
 
 Losjes gebaseerd op ".NET Microservices – Full Course" van Les Jackson (https://www.youtube.com/watch?v=DgVjEo3OGBI).
 
-**[versie zonder Dapr componenten]**
-(<a href="https://github.com/Joost1982/MicroserviceVoorbeeld/tree/dapr">klik hier voor de versie inclusief Dapr</a>)
+**[versie inclusief pub/sub, service-to-service invocation en state management componenten van Dapr]**
+(<a href="https://github.com/Joost1982/MicroserviceVoorbeeld/tree/master">klik hier voor de versie zonder Dapr</a>)
 
 Afwijkingen t.o.v. de cursus:
 - Andere Models: Platform -> EggType en Command -> Flock en eentje extra: Product
@@ -13,12 +13,18 @@ Afwijkingen t.o.v. de cursus:
 - De Flock Service is gebaseerd op Les Jacksons ".NET Core 3.1 MVC REST API - Full Course" (https://www.youtube.com/watch?v=fmvcAzHpsk8)
 - ConnectionStrings niet in appsettings.json maar als env vars
 
+Dapr toevoegingen:
+- Pub/sub: code bevat geen enkele verwijzing meer naar RabbitMq (kan daardoor makkelijk vervangen worden door bijvoorbeeld Redis als dat nodig is)
+- Service-to-service invocation: Flock Service bevat een endpoint (/api/f/products/{id}) waarin d.m.v. Dapr Service-to-service invocation een service van Product Service wordt aangeroepen via de eigen sidecar
+- State management: bij een POST in de EggType Service wordt er een teller bijgehouden in een redis key-value database die uitgelezen kan worden via /api/eggtypes/state/bij . 
+Ook hier geldt dat er in de code geen verwijzing is naar de (Redis) implementatie dankzij Dapr, waardoor switchen (naar bijvoorbeeld Cosmos Db) vrij makkelijk gaat.
+
 *Overzicht*
 
-<img src="https://github.com/Joost1982/MicroserviceVoorbeeld/blob/master/overzicht_rabbitMq.png" width="500">
+<img src="https://github.com/Joost1982/MicroserviceVoorbeeld/blob/dapr/overzicht_rabbitMq.png" width="500">
 
 Bij het opstarten van de Flock Service en de Product Service worden de op dat moment bekende EggTypes via gRPC binnengehaald vanuit de EggType Service.
-Elk nieuw aangemaakte EggType in de EggType Service wordt gepublished naar de MessageBus en via listeners opgepikt door de Flock Service en de Product Service die ze daarna ook aanmaken in hun eigen databases.
+Elk nieuw aangemaakte EggType in de EggType Service wordt gepublished naar de MessageBus en door de Flock Service en de Product Service opgepikt die ze daarna ook aanmaken in hun eigen databases.
 
 *Models*
 
@@ -57,7 +63,8 @@ Voorbeeld Product:
 Van EggType Service:
 - **GET**		/api/eggtypes	
 - **GET** 		/api/eggtypes/{id}		
-- **POST**		/api/eggtypes		(verwijst via pubsub door naar "/api/f/eggtypes" van Flock Service)
+- **POST**		/api/eggtypes		(verwijst via pubsub door naar "/api/f/eggtypes" van Flock Service + houdt teller bij via state management in redis)
+- **GET** 		/api/eggtypes/state/bij [voor Dapr State management test: endpoint haalt bovengenoemde teller op]	
 
 Van Flock Service:
 - **GET**		/api/flocks
@@ -71,6 +78,7 @@ Van Flock Service:
 - **GET** 		/api/f/eggtypes/{eggTypeId}/flocks	
 - **GET** 		/api/f/eggtypes/{eggTypeId}/flocks/{flockId}
 - **POST** 		/api/f/eggtypes/{eggTypeId}/flocks
+- **GET**		/api/f/products/{id} [voor Dapr Service-to-service invocation voorbeeld: roept endpoint van Product Service aan via eigen sidecar]
 
 Van Product Service:
 - **GET**		/api/products
