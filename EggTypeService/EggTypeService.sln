@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EggTypeService", "EggTypeService\EggTypeService.csproj", "{B3C5D1F9-D40F-4F5F-8D07-100966903755}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogExampleLibrary", "LogExampleLibrary\LogExampleLibrary.csproj", "{64896E03-E2BA-4741-B226-133CE6D7F330}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogExampleLibrary", "LogExampleLibrary\LogExampleLibrary.csproj", "{64896E03-E2BA-4741-B226-133CE6D7F330}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{955C8F83-3E58-417A-AA80-47D727EBD250}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{64896E03-E2BA-4741-B226-133CE6D7F330}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64896E03-E2BA-4741-B226-133CE6D7F330}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64896E03-E2BA-4741-B226-133CE6D7F330}.Release|Any CPU.Build.0 = Release|Any CPU
+		{955C8F83-3E58-417A-AA80-47D727EBD250}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{955C8F83-3E58-417A-AA80-47D727EBD250}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{955C8F83-3E58-417A-AA80-47D727EBD250}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{955C8F83-3E58-417A-AA80-47D727EBD250}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -19,19 +19,16 @@ namespace EggTypeService.Controllers
     {
         private readonly IEggTypeRepo _repository;
         private readonly IMapper _mapper;
-        private readonly IFlockDataClient _commandDataClient;
         private readonly DaprClient _dapprClient;
         private const string STATESTORE_NAME = "eggstatestore"; // voor Dapr statemanagement voorbeeld
 
         public EggTypesController(
             IEggTypeRepo repository, 
             IMapper mapper,
-            IFlockDataClient flockDataClient,
             DaprClient daprClient)
         {
             _repository = repository;
             _mapper = mapper;
-            _commandDataClient = flockDataClient;
             _dapprClient = daprClient;  // voor state management test
         }
 
