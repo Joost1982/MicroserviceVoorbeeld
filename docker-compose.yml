@@ -17,7 +17,7 @@ services:
     image: mcr.microsoft.com/mssql/server:2019-latest
     environment:
       ACCEPT_EULA: "Y"
-      SA_PASSWORD: "Geheim123"
+      SA_PASSWORD: ${SA_PASSWORD}
     ports:
       - "1433:1433"	    # hier nog wel portbinding, omdat we de database van buitenaf willen benaderen via sql management studio (en dotnet ef update)
     volumes: 
@@ -71,7 +71,7 @@ services:
   flockservice-api:
     build: ./FlockService/FlockService/.
     environment:
-      ConnectionStrings__FlockConnectionDocker: Server=ms-sql-server,1433;Database=FlockDb;User Id=SA;Password=Geheim123;
+      ConnectionStrings__FlockConnectionDocker: Server=ms-sql-server,1433;Database=FlockDb;User Id=SA;Password=${SA_PASSWORD};
     #ports:
     #  - "8081:80" # nb: geen port binding hier! server is van buiten niet meer direct te benaderen (gaat via nginx api gateway)
     expose:
